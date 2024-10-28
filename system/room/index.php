@@ -1,5 +1,8 @@
 <?php
-require_once "../library/konfigurasi.php";
+require_once "../../library/konfigurasi.php";
+
+//CEK USER
+checkUserSession($db);
 
 $roomType = query("SELECT * FROM roomTypes");
 
@@ -27,10 +30,10 @@ $roomType = query("SELECT * FROM roomTypes");
     <!-- Custom styles for this template-->
     <link href="<?= BASE_URL_HTML ?>/css/sb-admin-2.min.css" rel="stylesheet">
     <!-- Toastr CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-<!-- SweetAlert CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 
 
@@ -44,17 +47,18 @@ $roomType = query("SELECT * FROM roomTypes");
     <div id="wrapper">
 
         <!-- Sidebar -->
-       <?php require_once "{$constant('BASE_URL_PHP')}/sidebar.php" ?>
+        <?php require_once "{$constant('BASE_URL_PHP')}/system/sidebar.php" ?>
         <!-- End of Sidebar -->
-
+        
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
+            
             <!-- Main Content -->
             <div id="content">
-
+                
                 <!-- Topbar -->
-              <?php require_once "{$constant('BASE_URL_PHP')}/navbar.php" ?>
+                <?php require_once "{$constant('BASE_URL_PHP')}/system/navbar.php" ?>
+               
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -64,11 +68,24 @@ $roomType = query("SELECT * FROM roomTypes");
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">ROOM DATA</h1>
                         <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#addRoomModal"><i
-                        class="fas fa-plus fa-sm text-white"></i> Add Room</button>
+                                class="fas fa-plus fa-sm text-white"></i> Add Room</button>
 
                     </div>
 
-
+                    <div class="card shadow p-2 ">
+                        <form
+                            class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                    aria-label="Search" aria-describedby="basic-addon2" id="searchId" onchange="cariDaftarRoom()">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" onclick="cariDaftarRoom()">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="row" id="daftarRoom">
                     </div>
 
@@ -96,40 +113,40 @@ $roomType = query("SELECT * FROM roomTypes");
 
     <!-- MODAL ADD ROOM -->
     <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Room</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="formAddRoom" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Room</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAddRoom" method="post">
 
-        <div class="form-group">
-            <label for="roomNumber">Room Number</label>
-            <input type="number" name="roomNumber" id="roomNumber" class="form-control" placeholder="Add Room Number" autocomplete="off" >
-        </div>
-        <div class="form-group">
-            <label for="inputGroupSelect01">Room Type</label>
-       
-        <select class="custom-select" id="roomType" name="roomTypeId">
-            <option selected>Choose...</option>
-            <?php foreach($roomType as $rt): ?>
-                <option value="<?= $rt["roomTypeId"] ?>"><?= $rt["typeName"] ?></option>
-            <?php endforeach; ?>
-        </select>
+                        <div class="form-group">
+                            <label for="roomNumber">Room Number</label>
+                            <input type="number" name="roomNumber" id="roomNumber" class="form-control" placeholder="Add Room Number" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputGroupSelect01">Room Type</label>
+
+                            <select class="custom-select" id="roomType" name="roomTypeId">
+                                <option selected>Choose...</option>
+                                <?php foreach ($roomType as $rt): ?>
+                                    <option value="<?= $rt["roomTypeId"] ?>"><?= $rt["typeName"] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addRoom()">Save changes</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="addRoom()">Save changes</button>
-    </form>
-      </div>
-    </div>
-  </div>
-</div>
     <!-- MODAL ADD ROOM -->
 
     <!-- Scroll to Top Button-->
@@ -173,12 +190,13 @@ $roomType = query("SELECT * FROM roomTypes");
     <!-- Page level custom scripts -->
     <script src="<?= BASE_URL_HTML ?>/js/demo/chart-area-demo.js"></script>
     <script src="<?= BASE_URL_HTML ?>/js/demo/chart-pie-demo.js"></script>
-    <script src="<?= BASE_URL_HTML ?>/room/room.js"></script>
+    <script src="<?= BASE_URL_HTML ?>/system/room/room.js"></script>
     <!-- Toastr JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<!-- SweetAlert JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 </body>
 
