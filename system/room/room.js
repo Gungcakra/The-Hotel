@@ -10,7 +10,7 @@
 //   }
 // });
 document.addEventListener("DOMContentLoaded", function (event) {
-  daftarRoom(); // Panggil daftarRoom segera setelah DOM sepenuhnya dimuat
+  daftarRoom(); 
 });
 
 
@@ -19,7 +19,7 @@ function daftarRoom() {
     url: "daftarRoom.php",
     type: "post",
     data: {
-      flag: "daftar",
+      flag: "daftar"
     },
     beforeSend: function () {
       $(".overlay").show();
@@ -31,33 +31,37 @@ function daftarRoom() {
   });
 }
 
-function addRoom() {
-  const formBlog = document.getElementById("formAddRoom");
-  const dataForm = new FormData(formBlog);
+function prosesRoom() {
+  const formRoom = document.getElementById("formRoom");
+  const dataForm = new FormData(formRoom);
 
-  // Menambahkan flag ke FormData
-  dataForm.append("flag", "add");
+  // Hide the modal first
+  $("#roomModal").modal("hide");
 
-  $.ajax({
-    url: "prosesRoom.php",
-    type: "post",
-    enctype: "multipart/form-data",
-    processData: false,
-    contentType: false,
-    data: dataForm,
-    dataType: "json",
-    beforeSend: function () {},
-    success: function (data) {
-      const { status, pesan } = data;
-      notifikasi(status, pesan);
-      daftarRoom();
-      $("#addRoomModal").modal("hide");
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error("Error:", textStatus, errorThrown);
-    },
+  // Wait for the modal to completely hide before sending the AJAX request
+  $("#roomModal").on('hidden.bs.modal', function () {
+    $.ajax({
+      url: "prosesRoom.php",
+      type: "post",
+      enctype: "multipart/form-data",
+      processData: false,
+      contentType: false,
+      data: dataForm,
+      dataType: "json",
+      success: function (data) {
+        console.log(data);
+        const { status, pesan } = data;
+        notifikasi(status, pesan);
+        daftarRoom();
+        // $("#formAddRoom")[0].reset(); // Uncomment if you want to reset the form
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error("Error:", textStatus, errorThrown);
+      },
+    });
   });
 }
+
 
 function deleteRoom(id) {
   Swal.fire({
@@ -93,51 +97,98 @@ function deleteRoom(id) {
     }
   });
 }
+// Function to populate the modal for editing room details
+function populateEditRoomModal(room) {
+  document.getElementById('roomId').value = room.roomId;
+  document.getElementById('roomNumber').value = room.roomNumber;
 
-function updateRoom(roomId) {
-  const formRoom = document.getElementById("formEditRoom" + roomId);
+  const roomTypeSelect = document.getElementById('roomTypeId');
+  roomTypeSelect.value = room.roomTypeId;
 
-  const roomNumber = $("#roomNumber" + roomId).val();
-  const roomTypeId = $("#roomTypeId" + roomId).val();
-  const status = $("#status" + roomId).val();
+  document.getElementById('status').value = room.status;
+  document.getElementById('flag').value = 'update';
+}
 
-  const dataForm = new FormData(formRoom);
-  dataForm.append("roomId", roomId);
-  dataForm.append("roomNumber", roomNumber);
-  dataForm.append("roomTypeId", roomTypeId);
-  dataForm.append("status", status);
-  dataForm.append("flag", "update");
+// Reset modal on close
+document.getElementById('flag').value = 'add';
+$('#roomModal').on('hidden.bs.modal', function () {
+  $('#formRoom')[0].reset();
+  document.getElementById('flag').value = 'add';
+});
+
+// Function to load the specified page for pagination
+function loadPage(pageNumber) {
+  // Get the limit value from the #limit element
+  const limit = $('#limit').val();
 
   $.ajax({
-    url: "prosesRoom.php",
-    type: "POST",
-    data: dataForm,
-    processData: false,
-    contentType: false,
-    dataType: "json",
-    beforeSend: function () {},
-    success: function (data) {
-      console.log(data);
-      const { status, pesan } = data;
-      notifikasi(status, pesan);
-      $(".modal-backdrop").remove();
-      daftarRoom();
-      $("#addRoomModal").modal("hide");
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error("Error:", textStatus, errorThrown);
-    },
+      type: "POST",
+      url: "daftarRoom.php",
+      data: {
+          flag: 'cari',
+          page: pageNumber,
+          searchQuery: $('#searchQuery').val(),
+          roomStatus: $('#roomStatus').val(),
+          limit: limit // Add the limit to the data being sent
+      },
+      success: function (data) {
+          $('#daftarRoom').html(data);
+      }
   });
 }
 
+
+
+
+// function updateRoom(roomId) {
+//   // $("#editRoomModal" + roomId).modal("hide");
+
+//   const formRoom = document.getElementById("formEditRoom");
+//   const dataForm = new FormData(formRoom);
+
+//   const roomNumber = $("#roomNumber" + roomId).val();
+//   const roomTypeId = $("#roomTypeId" + roomId).val();
+//   const status = $("#status" + roomId).val();
+//   dataForm.append("roomId", roomId);
+//   dataForm.append("roomNumber", roomNumber);
+//   dataForm.append("roomTypeId", roomTypeId);
+//   dataForm.append("status", status);
+//   dataForm.append("flag", "update");
+  
+//   $.ajax({
+//     url: "prosesRoom.php",
+//     type: "post",
+//     data: dataForm,
+//     processData: false,
+//     contentType: false,
+//     dataType: "json",
+//     beforeSend: function () {},
+//     success: function (data) {
+//       console.log(data);
+//       const { status, pesan } = data;
+//       notifikasi(status, pesan);
+//       daftarRoom();
+//       $("#editRoomModal").modal("hide");
+
+//     },
+//     error: function (jqXHR, textStatus, errorThrown) {
+//       console.error("Error:", textStatus, errorThrown);
+//     },
+//   });
+// }
+
 function cariDaftarRoom() {
-	const kataKunciData = $("#searchId").val();
-	if (kataKunciData) {
+	const searchQuery = $("#searchQuery").val();
+  const roomStatus = $("#roomStatus").val();
+  const limit = $("#limit").val();
+	if (searchQuery || roomStatus || limit) {
 		$.ajax({
 			url: "daftarRoom.php",
 			type: "post",
 			data: {
-				kataKunciData: kataKunciData,
+				searchQuery: searchQuery,
+				roomStatus: roomStatus,
+				limit: limit,
 				flag: "cari",
 			},
 			beforeSend: function () {

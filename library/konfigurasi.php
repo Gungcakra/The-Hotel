@@ -6,17 +6,42 @@ $constant = function (string $name) {
     return constant($name) ?? '';
 };
 
-function query($query){
+function query($query, $params = []) {
     global $db;
 
-    $result = mysqli_query($db, $query);
-    $rows = [];
+    // Prepare the statement
+    $stmt = mysqli_prepare($db, $query);
 
-    while($row = mysqli_fetch_assoc($result)){
-        $rows [] = $row;
+    // Bind parameters if any are provided
+    if (!empty($params)) {
+        // Dynamically bind the parameters
+        $types = str_repeat("s", count($params)); // Assumes all parameters are strings; adjust if needed
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
     }
-    return $rows;
+
+    // Execute the query
+    mysqli_stmt_execute($stmt);
+
+    // Determine if the query is SELECT or not
+    $queryType = strtoupper(explode(' ', trim($query))[0]);
+    if ($queryType === 'SELECT') {
+        // Fetch results for SELECT queries
+        $result = mysqli_stmt_get_result($stmt);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        mysqli_stmt_close($stmt);
+        return $rows;
+    } else {
+        // For INSERT, UPDATE, DELETE queries, return affected rows
+        $affectedRows = mysqli_stmt_affected_rows($stmt);
+        mysqli_stmt_close($stmt);
+        return $affectedRows; // Returns the number of affected rows
+    }
 }
+
+
 
 
 define('BASE_URL_HTML', '/thehotel');

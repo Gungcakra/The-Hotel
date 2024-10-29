@@ -49,16 +49,16 @@ $roomType = query("SELECT * FROM roomTypes");
         <!-- Sidebar -->
         <?php require_once "{$constant('BASE_URL_PHP')}/system/sidebar.php" ?>
         <!-- End of Sidebar -->
-        
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-            
+
             <!-- Main Content -->
             <div id="content">
-                
+
                 <!-- Topbar -->
                 <?php require_once "{$constant('BASE_URL_PHP')}/system/navbar.php" ?>
-               
+
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -67,17 +67,12 @@ $roomType = query("SELECT * FROM roomTypes");
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">ROOM DATA</h1>
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#addRoomModal"><i
-                                class="fas fa-plus fa-sm text-white"></i> Add Room</button>
-
                     </div>
 
-                    <div class="card shadow p-2 ">
-                        <form
-                            class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <div class="row d-flex shadow p-2">
+                        <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search border">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                    aria-label="Search" aria-describedby="basic-addon2" id="searchId" onchange="cariDaftarRoom()">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" id="searchQuery" onclick="cariDaftarRoom()">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button" onclick="cariDaftarRoom()">
                                         <i class="fas fa-search fa-sm"></i>
@@ -85,7 +80,27 @@ $roomType = query("SELECT * FROM roomTypes");
                                 </div>
                             </div>
                         </form>
+                        <div class="ml-2 ">
+                            <select class="custom-select" id="roomStatus" name="roomStatus" onclick="cariDaftarRoom()">
+                                <option value="">All</option>
+                                <option value="Available">Available</option>
+                                <option value="Maintenance" >Maintenance</option>
+                                <option value="Booked">Booked</option>
+                            </select>
+                        </div>
+                        <div class="ml-2 ">
+                            <select class="custom-select" id="limit" name="limit" onclick="cariDaftarRoom()">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50" >50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#roomModal">
+                            <i class="fas fa-plus fa-sm text-white"></i> Add Room
+                        </button>
                     </div>
+
                     <div class="row" id="daftarRoom">
                     </div>
 
@@ -112,41 +127,7 @@ $roomType = query("SELECT * FROM roomTypes");
     <!-- End of Page Wrapper -->
 
     <!-- MODAL ADD ROOM -->
-    <div class="modal fade" id="addRoomModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Room</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formAddRoom" method="post">
-
-                        <div class="form-group">
-                            <label for="roomNumber">Room Number</label>
-                            <input type="number" name="roomNumber" id="roomNumber" class="form-control" placeholder="Add Room Number" autocomplete="off">
-                        </div>
-                        <div class="form-group">
-                            <label for="inputGroupSelect01">Room Type</label>
-
-                            <select class="custom-select" id="roomType" name="roomTypeId">
-                                <option selected>Choose...</option>
-                                <?php foreach ($roomType as $rt): ?>
-                                    <option value="<?= $rt["roomTypeId"] ?>"><?= $rt["typeName"] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="addRoom()">Save changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+  
     <!-- MODAL ADD ROOM -->
 
     <!-- Scroll to Top Button-->

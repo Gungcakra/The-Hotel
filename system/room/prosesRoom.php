@@ -10,9 +10,11 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
     $roomNumber = $_POST['roomNumber'];
     $roomTypeId = $_POST['roomTypeId'];
 
-    $query = "INSERT INTO rooms (roomNumber, roomTypeId, status) VALUES ('$roomNumber', '$roomTypeId', 'available')";
+    $query = "INSERT INTO rooms (roomNumber, roomTypeId, status) VALUES (?, ?, ?)";
 
-    if (mysqli_query($db, $query)) {
+    $result = query($query, [$roomNumber, $roomTypeId, 'Available']);
+
+    if ($result > 0) {
         echo json_encode([
             "status" => true,
             "pesan" => "Room added successfully!"
@@ -20,15 +22,16 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
     } else {
         echo json_encode([
             "status" => false,
-            "pesan" => "Failed to add room: " . mysqli_error($db)
+            "pesan" => "Failed to add room."
         ]);
     }
 } else if (isset($_POST['flag']) && $_POST['flag'] === 'delete') {
     $roomId = $_POST['roomId'];
 
-    $query = "DELETE FROM rooms WHERE roomId = $roomId";
+    $query = "DELETE FROM rooms WHERE roomId = ?";
+    $result = query($query, [$roomId]);
 
-    if (mysqli_query($db, $query)) {
+    if ($result > 0) {
         echo json_encode([
             "status" => true,
             "pesan" => "Room deleted successfully!"
@@ -40,24 +43,26 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
         ]);
     }
 } else if ($_POST['flag'] && $_POST['flag'] === 'update') {
-    $roomId = $_POST['roomId'];
-    $roomNumber = $_POST['roomNumber'];
-    $roomTypeId = $_POST['roomTypeId'];
-    $status = $_POST['status'];
-    
-    $query = "UPDATE rooms SET roomNumber = $roomNumber, roomTypeId = $roomTypeId , status = '$status' WHERE roomId = $roomId ";
-    
-    if (mysqli_query($db, $query)) {
-        echo json_encode([
-            "status" => true,
-            "pesan" => "Room updated successfully!"
-        ]);
-    } else {
-        echo json_encode([
-            "status" => false,
-            "pesan" => "Failed to update room: " . mysqli_error($db)
-        ]);
-    }
-    
+        $roomId = $_POST['roomId'];
+        $roomNumber = $_POST['roomNumber'];
+        $roomTypeId = $_POST['roomTypeId'];
+        $status = $_POST['status'];
 
+        $query = "UPDATE rooms 
+                SET roomNumber = ?, 
+                    roomTypeId = ?,
+                    status = ? 
+                WHERE roomId = ? ";
+        $result = query($query,[$roomNumber,$roomTypeId,$status,$roomId]);
+        if ($result) {
+            echo json_encode([
+                "status" => true,
+                "pesan" => "Room updated successfully!"
+            ]);
+        } else {
+            echo json_encode([
+                "status" => false,
+                "pesan" => "Failed to update room: " . mysqli_error($db)
+            ]);
+        }
 }
