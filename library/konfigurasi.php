@@ -52,16 +52,16 @@ function checkUserSession($db) {
     session_start();
 
     // Cek apakah pengguna sudah login dan memiliki token CSRF
-    if (!isset($_SESSION['idUser']) || !isset($_SESSION['csrf_token'])) {
+    if (!isset($_SESSION['userId']) || !isset($_SESSION['csrf_token'])) {
         session_destroy(); // Hapus sesi jika tidak ada
         header("Location: /thehotel"); // Redirect ke halaman /thehotel
         exit();
     }
 
-    // Cek apakah idUser ada di database
-    $query = "SELECT * FROM user WHERE idUser = ?";
+    // Cek apakah userId ada di database
+    $query = "SELECT * FROM user WHERE userId = ?";
     $stmt = $db->prepare($query);
-    $stmt->execute([$_SESSION['idUser']]);
+    $stmt->execute([$_SESSION['userId']]);
     $user = $stmt->fetch();
 
     if (!$user) {
@@ -70,4 +70,13 @@ function checkUserSession($db) {
         exit();
     }
 }
+
+function encryptUrl($url) {
+    return base64_encode($url);
+}
+
+function decryptUrl($encryptedUrl) {
+    return base64_decode($encryptedUrl);
+}
+
 

@@ -8,29 +8,26 @@ if (isset($_SESSION['idUser'])) {
     exit();
 }
 
-// Proses login jika form disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil username dan password dari form
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Hash password yang dimasukkan dengan SHA-256
-    $hashed_password = hash('sha256', $password);
+    // Query untuk mendapatkan data user berdasarkan username
+    $user = query("SELECT * FROM user WHERE username = ?", [$username]);
 
-    // Query untuk memeriksa username dan password
-    $user = query("SELECT * FROM user WHERE username = '$username' AND password = '$hashed_password'");
-
-    // Debugging: Periksa apakah pengguna ditemukan
-    if ($user) {
-        // Jika berhasil, simpan idUser di session
-        $_SESSION['idUser'] = $user[0]['idUser'];
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); // Buat token CSRF
-        header("Location: /thehotel/system/"); // Redirect ke thehotel/system/4
+    // Jika user ditemukan, verifikasi password
+    if ($user && password_verify($password, $user[0]['password'])) {
+        $_SESSION['userId'] = $user[0]['userId'];
+        // Generate Token CSRF
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); 
+        header("Location: /thehotel/system/"); 
         exit();
     } else {
         $error = "Username atau password salah.";
     }
-} 
+}
+
 
 ?>
 
@@ -51,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body class="bg-gradient-primary">
 
-    <div class="container">
-        <div class="row justify-content-center">
+    <div class="container" style="height: 100vh;">
+        <div class="row justify-content-center align-items-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">

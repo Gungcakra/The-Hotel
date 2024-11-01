@@ -72,36 +72,29 @@ $roomType = query("SELECT * FROM roomTypes");
                     <div class="row d-flex shadow p-2">
                         <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search border">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search Room Number" aria-label="Search" aria-describedby="basic-addon2" id="searchQuery"  autocomplete="off">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" id="searchQuery" onkeydown="cariDaftarRoomType()" autocomplete="off">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" onclick="cariDaftarRoom()">
+                                    <button class="btn btn-primary" type="button" onclick="cariDaftarRoomType()">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
                             </div>
                         </form>
+
                         <div class="ml-2 ">
-                            <select class="custom-select" id="roomStatus" name="roomStatus" onclick="cariDaftarRoom()">
-                                <option value="">All</option>
-                                <option value="Available">Available</option>
-                                <option value="Maintenance" >Maintenance</option>
-                                <option value="Booked">Booked</option>
-                            </select>
-                        </div>
-                        <div class="ml-2 ">
-                            <select class="custom-select" id="limit" name="limit" onclick="cariDaftarRoom()">
+                            <select class="custom-select" id="limit" name="limit" onclick="cariDaftarRoomType()">
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="50" >50</option>
                                 <option value="100">100</option>
                             </select>
                         </div>
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#roomModal">
-                            <i class="fas fa-plus fa-sm text-white"></i> Add Room
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#roomTypeModal">
+                            <i class="fas fa-plus fa-sm text-white"></i> Add Room Type
                         </button>
                     </div>
 
-                    <div class="row" id="daftarRoom">
+                    <div class="row" id="daftarRoomType">
                     </div>
 
                 </div>
@@ -165,7 +158,7 @@ $roomType = query("SELECT * FROM roomTypes");
     <!-- Page level custom scripts -->
     <script src="<?= BASE_URL_HTML ?>/js/demo/chart-area-demo.js"></script>
     <script src="<?= BASE_URL_HTML ?>/js/demo/chart-pie-demo.js"></script>
-    <script src="<?= BASE_URL_HTML ?>/system/room/room.js"></script>
+    <script src="<?= BASE_URL_HTML ?>/system/roomType/roomType.js"></script>
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 

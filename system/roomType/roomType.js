@@ -1,22 +1,22 @@
 // document.addEventListener("DOMContentLoaded", function () {
-//   fetch("daftarRoom.php")
+//   fetch("daftarRoomType.php")
 //     .then((response) => response.text())
 //     .then((data) => {
 //       document.getElementById("daftarRoom").innerHTML = data;
 //     })
 //     .catch((error) => console.error("Error loading daftarRoom:", error));
 //   if (document.readyState === "complete") {
-//     daftarRoom();
+//     daftarRoomType();
 //   }
 // });
 document.addEventListener("DOMContentLoaded", function (event) {
-  daftarRoom(); 
+  daftarRoomType(); 
 });
 
 
-function daftarRoom() {
+function daftarRoomType() {
   $.ajax({
-    url: "daftarRoom.php",
+    url: "daftarRoomType.php",
     type: "post",
     data: {
       flag: "daftar"
@@ -25,23 +25,23 @@ function daftarRoom() {
       $(".overlay").show();
     },
     success: function (data, status) {
-      $("#daftarRoom").html(data);
+      $("#daftarRoomType").html(data);
       $(".overlay").hide();
     },
   });
 }
 
-function prosesRoom() {
-  const formRoom = document.getElementById("formRoom");
-  const dataForm = new FormData(formRoom);
+function prosesRoomType() {
+  const formRoomType = document.getElementById("formRoomType");
+  const dataForm = new FormData(formRoomType);
 
   // Hide the modal first
-  $("#roomModal").modal("hide");
+  $("#roomTypeModal").modal("hide");
 
   // Wait for the modal to completely hide before sending the AJAX request
-  $("#roomModal").on('hidden.bs.modal', function () {
+  $("#roomTypeModal").on('hidden.bs.modal', function () {
     $.ajax({
-      url: "prosesRoom.php",
+      url: "prosesRoomType.php",
       type: "post",
       enctype: "multipart/form-data",
       processData: false,
@@ -52,7 +52,7 @@ function prosesRoom() {
         console.log(data);
         const { status, pesan } = data;
         notifikasi(status, pesan);
-        daftarRoom();
+        daftarRoomType();
         // $("#formAddRoom")[0].reset(); // Uncomment if you want to reset the form
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -63,7 +63,7 @@ function prosesRoom() {
 }
 
 
-function deleteRoom(id) {
+function deleteRoomType(id) {
   Swal.fire({
     title: "Are You Sure?",
     text: "Setelah dibatalkan, proses tidak dapat diulangi!",
@@ -74,10 +74,10 @@ function deleteRoom(id) {
   }).then(function (result) {
     if (result.isConfirmed) {
       $.ajax({
-        url: "prosesRoom.php",
+        url: "prosesRoomType.php",
         type: "post",
         data: {
-          roomId: id,
+          roomTypeId: id,
           flag: "delete",
         },
         dataType: "json",
@@ -85,7 +85,7 @@ function deleteRoom(id) {
         success: function (data) {
           const { status, pesan } = data;
           notifikasi(status, pesan);
-          daftarRoom();
+          daftarRoomType();
         },
         error: function (jqXHR, textStatus, errorThrown) {
           console.error("Error:", textStatus, errorThrown);
@@ -97,15 +97,10 @@ function deleteRoom(id) {
     }
   });
 }
-// Function to populate the modal for editing room details
-function EditRoomModal(room) {
-  document.getElementById('roomId').value = room.roomId;
-  document.getElementById('roomNumber').value = room.roomNumber;
-
-  const roomTypeSelect = document.getElementById('roomTypeId');
-  roomTypeSelect.value = room.roomTypeId;
-
-  document.getElementById('status').value = room.status;
+function editRoomTypeModal(roomType) {
+  document.getElementById('roomTypeId').value = roomType.roomTypeId;
+  document.getElementById('typeName').value = roomType.typeName;
+  document.getElementById('price').value = roomType.price;
   document.getElementById('flag').value = 'update';
 }
 
@@ -117,7 +112,7 @@ function loadPage(pageNumber) {
 
   $.ajax({
       type: "POST",
-      url: "daftarRoom.php",
+      url: "daftarRoomType.php",
       data: {
           flag: 'cari',
           page: pageNumber,
@@ -126,7 +121,7 @@ function loadPage(pageNumber) {
           limit: limit // Add the limit to the data being sent
       },
       success: function (data) {
-          $('#daftarRoom').html(data);
+          $('#daftarRoomType').html(data);
       }
   });
 }
@@ -134,8 +129,8 @@ function loadPage(pageNumber) {
 
 
 
-// function updateRoom(roomId) {
-//   // $("#editRoomModal" + roomId).modal("hide");
+// function updateRoomType(roomId) {
+//   // $("#editRoomTypeModal" + roomId).modal("hide");
 
 //   const formRoom = document.getElementById("formEditRoom");
 //   const dataForm = new FormData(formRoom);
@@ -150,7 +145,7 @@ function loadPage(pageNumber) {
 //   dataForm.append("flag", "update");
   
 //   $.ajax({
-//     url: "prosesRoom.php",
+//     url: "prosesRoomType.php",
 //     type: "post",
 //     data: dataForm,
 //     processData: false,
@@ -161,8 +156,8 @@ function loadPage(pageNumber) {
 //       console.log(data);
 //       const { status, pesan } = data;
 //       notifikasi(status, pesan);
-//       daftarRoom();
-//       $("#editRoomModal").modal("hide");
+//       daftarRoomType();
+//       $("#editRoomTypeModal").modal("hide");
 
 //     },
 //     error: function (jqXHR, textStatus, errorThrown) {
@@ -171,17 +166,15 @@ function loadPage(pageNumber) {
 //   });
 // }
 
-function cariDaftarRoom() {
+function cariDaftarRoomType() {
 	const searchQuery = $("#searchQuery").val();
-  const roomStatus = $("#roomStatus").val();
   const limit = $("#limit").val();
-	if (searchQuery || roomStatus || limit) {
+	if (searchQuery || limit) {
 		$.ajax({
-			url: "daftarRoom.php",
+			url: "daftarRoomType.php",
 			type: "post",
 			data: {
 				searchQuery: searchQuery,
-				roomStatus: roomStatus,
 				limit: limit,
 				flag: "cari",
 			},
@@ -189,12 +182,12 @@ function cariDaftarRoom() {
 			
 			},
 			success: function (data, status) {
-				$("#daftarRoom").html(data);
+				$("#daftarRoomType").html(data);
 			},
 		});
 	}else  {
 		$.ajax({
-			url: "daftarRoom.php",
+			url: "daftarRoomType.php",
 			type: "post",
 			data: {
 				flag: "daftar",
@@ -203,7 +196,7 @@ function cariDaftarRoom() {
 			
 			},
 			success: function (data, status) {
-				$("#daftarRoom").html(data);
+				$("#daftarRoomType").html(data);
 			},
 		});
 	}

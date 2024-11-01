@@ -3,8 +3,8 @@ require_once "../../library/konfigurasi.php";
 
 //CEK USER
 checkUserSession($db);
+$role = query("SELECT * FROM employeeroles ORDER BY roleName ASC");
 
-$roomType = query("SELECT * FROM roomTypes");
 
 ?>
 
@@ -34,7 +34,11 @@ $roomType = query("SELECT * FROM roomTypes");
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-
+    <!-- SELECT2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <!-- Or for RTL support -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
 
 
@@ -66,42 +70,45 @@ $roomType = query("SELECT * FROM roomTypes");
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">ROOM DATA</h1>
+                        <h1 class="h3 mb-0 text-gray-800">EMPLOYEE DATA</h1>
                     </div>
 
                     <div class="row d-flex shadow p-2">
                         <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search border">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search Room Number" aria-label="Search" aria-describedby="basic-addon2" id="searchQuery"  autocomplete="off">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search Employee Name" aria-label="Search" aria-describedby="basic-addon2" id="searchQuery" onkeyup="cariDaftarEmployee()" autocomplete="off">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" onclick="cariDaftarRoom()">
+                                    <button class="btn btn-primary" type="button" onclick="cariDaftarEmployee()">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
                             </div>
                         </form>
                         <div class="ml-2 ">
-                            <select class="custom-select" id="roomStatus" name="roomStatus" onclick="cariDaftarRoom()">
-                                <option value="">All</option>
-                                <option value="Available">Available</option>
-                                <option value="Maintenance" >Maintenance</option>
-                                <option value="Booked">Booked</option>
+                            <select class="custom-select" id="roleIdSearch" name="roleIdSearch" onclick="cariDaftarEmployee()">
+                                <option value="" select>All</option>
+                                <?php
+                                foreach ($role as $rl) {
+
+                                ?>
+                                    <option value="<?= $rl['roleId'] ?>"><?= $rl['roleName'] ?></option>
+                                <?php  } ?>
                             </select>
                         </div>
                         <div class="ml-2 ">
-                            <select class="custom-select" id="limit" name="limit" onclick="cariDaftarRoom()">
+                            <select class="custom-select" id="limit" name="limit" onclick="cariDaftarEmployee()">
                                 <option value="10">10</option>
                                 <option value="20">20</option>
-                                <option value="50" >50</option>
+                                <option value="50">50</option>
                                 <option value="100">100</option>
                             </select>
                         </div>
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#roomModal">
-                            <i class="fas fa-plus fa-sm text-white"></i> Add Room
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#employeeModal">
+                            <i class="fas fa-plus fa-sm text-white"></i> Add Employee
                         </button>
                     </div>
 
-                    <div class="row" id="daftarRoom">
+                    <div class="row" id="daftarEmployee">
                     </div>
 
                 </div>
@@ -119,10 +126,6 @@ $roomType = query("SELECT * FROM roomTypes");
 
     </div>
     <!-- End of Page Wrapper -->
-
-    <!-- MODAL ADD ROOM -->
-  
-    <!-- MODAL ADD ROOM -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -165,13 +168,18 @@ $roomType = query("SELECT * FROM roomTypes");
     <!-- Page level custom scripts -->
     <script src="<?= BASE_URL_HTML ?>/js/demo/chart-area-demo.js"></script>
     <script src="<?= BASE_URL_HTML ?>/js/demo/chart-pie-demo.js"></script>
-    <script src="<?= BASE_URL_HTML ?>/system/room/room.js"></script>
+    <script src="<?= BASE_URL_HTML ?>/system/employee/employee.js"></script>
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- SweetAlert JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <!-- SELECT2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </body>
 

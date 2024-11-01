@@ -1,3 +1,10 @@
+<?php
+
+$userId = $_SESSION['userId'];
+$userData = query("SELECT * FROM user WHERE userId = ?",[$userId])[0];
+?>
+
+
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
     <!-- Sidebar Toggle (Topbar) -->
@@ -9,12 +16,12 @@
     <ul class="navbar-nav ml-auto">
 
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-      
+
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="<?= BASE_URL_HTML ?>/#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small font-weight-bold"><?= $userData['username'] ?></span>
                 <img class="img-profile rounded-circle"
                     src="<?= BASE_URL_HTML ?>/img/undraw_profile.svg">
             </a>
@@ -34,7 +41,7 @@
                     Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/system/logout.php?token=<?= $_SESSION['csrf_token'] ?>">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>

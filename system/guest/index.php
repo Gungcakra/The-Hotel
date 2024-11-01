@@ -4,7 +4,6 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-$roomType = query("SELECT * FROM roomTypes");
 
 ?>
 
@@ -66,42 +65,34 @@ $roomType = query("SELECT * FROM roomTypes");
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">ROOM DATA</h1>
+                        <h1 class="h3 mb-0 text-gray-800">GUEST DATA</h1>
                     </div>
 
                     <div class="row d-flex shadow p-2">
                         <form class="d-none d-sm-inline-block form-inline ml-md-3 my-2 my-md-0 mw-100 navbar-search border">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search Room Number" aria-label="Search" aria-describedby="basic-addon2" id="searchQuery"  autocomplete="off">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search Guest Name" aria-label="Search" aria-describedby="basic-addon2" id="searchQuery" onkeydown="cariDaftarGuest()" autocomplete="off">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" onclick="cariDaftarRoom()">
+                                    <button class="btn btn-primary" type="button" onclick="cariDaftarGuest()">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
                             </div>
                         </form>
                         <div class="ml-2 ">
-                            <select class="custom-select" id="roomStatus" name="roomStatus" onclick="cariDaftarRoom()">
-                                <option value="">All</option>
-                                <option value="Available">Available</option>
-                                <option value="Maintenance" >Maintenance</option>
-                                <option value="Booked">Booked</option>
-                            </select>
-                        </div>
-                        <div class="ml-2 ">
-                            <select class="custom-select" id="limit" name="limit" onclick="cariDaftarRoom()">
+                            <select class="custom-select" id="limit" name="limit" onclick="cariDaftarGuest()">
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="50" >50</option>
                                 <option value="100">100</option>
                             </select>
                         </div>
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#roomModal">
-                            <i class="fas fa-plus fa-sm text-white"></i> Add Room
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#guestModal">
+                            <i class="fas fa-plus fa-sm text-white"></i> Add Guest
                         </button>
                     </div>
 
-                    <div class="row" id="daftarRoom">
+                    <div class="row" id="daftarGuest">
                     </div>
 
                 </div>
@@ -112,6 +103,7 @@ $roomType = query("SELECT * FROM roomTypes");
 
             <!-- Footer -->
             <?php require_once "{$constant('BASE_URL_PHP')}/system/footer.php" ?>
+
             <!-- End of Footer -->
 
         </div>
@@ -125,7 +117,7 @@ $roomType = query("SELECT * FROM roomTypes");
     <!-- MODAL ADD ROOM -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <a class="scroll-to-top rounded" href="<?= BASE_URL_HTML ?>/#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
@@ -165,7 +157,7 @@ $roomType = query("SELECT * FROM roomTypes");
     <!-- Page level custom scripts -->
     <script src="<?= BASE_URL_HTML ?>/js/demo/chart-area-demo.js"></script>
     <script src="<?= BASE_URL_HTML ?>/js/demo/chart-pie-demo.js"></script>
-    <script src="<?= BASE_URL_HTML ?>/system/room/room.js"></script>
+    <script src="<?= BASE_URL_HTML ?>/system/guest/guest.js"></script>
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 

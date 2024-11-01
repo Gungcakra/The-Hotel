@@ -55,7 +55,8 @@ $roomType = query("SELECT * FROM roomTypes");
     </thead>
     <tbody>
       <?php
-      $no = $offset + 1; // Update the numbering based on the offset
+      if($room){
+      $no = $offset + 1; 
       foreach ($room as $rm):
       ?>
         <tr>
@@ -65,7 +66,7 @@ $roomType = query("SELECT * FROM roomTypes");
               <i class="fa fa-cogs"></i>
             </button>
             <div class="dropdown-menu menu-aksi" aria-labelledby="dropdownMenuButton">
-              <button type="button" class="btn btn-warning btn-sm tombol-dropdown-last" data-toggle="modal" data-target="#roomModal" onclick="populateEditRoomModal(<?= htmlspecialchars(json_encode($rm)) ?>)">
+              <button type="button" class="btn btn-warning btn-sm tombol-dropdown-last" data-toggle="modal" data-target="#roomModal" onclick="EditRoomModal(<?= htmlspecialchars(json_encode($rm)) ?>)">
                 <i class="fa fa-edit"></i> <strong>EDIT</strong>
               </button>
               <button type="button" class="btn btn-danger btn-sm tombol-dropdown-last" onclick="deleteRoom('<?= $rm['roomId'] ?>')">
@@ -80,7 +81,12 @@ $roomType = query("SELECT * FROM roomTypes");
       <?php
         $no++;
       endforeach;
+    } else {
       ?>
+        <tr>
+      <td colspan="10"> <p class="text-center font-weight-bold">No Result!</p></td>
+     </tr>
+      <?php } ?>
     </tbody>
   </table>
 
@@ -111,7 +117,7 @@ $roomType = query("SELECT * FROM roomTypes");
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Room</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Room Form</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -150,3 +156,14 @@ $roomType = query("SELECT * FROM roomTypes");
     </div>
   </div>
 </div>
+
+
+<script>
+  
+// Reset modal on close
+document.getElementById('flag').value = 'add';
+$('#roomModal').on('hidden.bs.modal', function () {
+  $('#formRoom')[0].reset();
+  document.getElementById('flag').value = 'add';
+});
+</script>
