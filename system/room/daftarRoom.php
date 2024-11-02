@@ -29,18 +29,18 @@ if ($flag === 'cari') {
 }
 
 // Count total records
-$totalQuery = "SELECT COUNT(*) as total FROM rooms INNER JOIN roomTypes ON rooms.roomTypeId = roomTypes.roomTypeId" . $conditions;
+$totalQuery = "SELECT COUNT(*) as total FROM rooms INNER JOIN roomtypes ON rooms.roomTypeId = roomtypes.roomTypeId" . $conditions;
 $totalResult = query($totalQuery, $params);
 $totalRecords = $totalResult[0]['total'];
 $totalPages = ceil($totalRecords / $limit); // Calculate total pages
 
-$query = "SELECT rooms.*, roomTypes.typeName 
+$query = "SELECT rooms.*, roomtypes.typeName 
           FROM rooms 
-          INNER JOIN roomTypes ON rooms.roomTypeId = roomTypes.roomTypeId" . $conditions . " LIMIT ? OFFSET ?";
+          INNER JOIN roomtypes ON rooms.roomTypeId = roomtypes.roomTypeId" . $conditions . " LIMIT ? OFFSET ?";
 $params[] = $limit;
 $params[] = $offset; // Add offset to params
 $room = query($query, $params);
-$roomType = query("SELECT * FROM roomTypes");
+$roomType = query("SELECT * FROM roomtypes");
 ?>
 
 <div class="card shadow mb-2 w-100">
