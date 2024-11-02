@@ -66,7 +66,7 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
     define('BASE_URL_HTML', dirname(__FILE__));;
     define('BASE_URL_PHP', dirname(__FILE__)); // Mengarah ke folder root proyek saat di localhost
 } else {
-    define('BASE_URL_HTML',dirname(__DIR__)); // Untuk hosting, tidak perlu prefiks
+    define('BASE_URL_HTML', ''); // Untuk hosting, tidak perlu prefiks
     define('BASE_URL_PHP', dirname(__DIR__)); // Mengarah ke folder root proyek saat di hosting
 }
 
