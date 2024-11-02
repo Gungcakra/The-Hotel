@@ -64,7 +64,7 @@ function query($query, $params = []) {
 // Cek host untuk menentukan BASE_URL
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
     define('BASE_URL_HTML', '/thehotel');
-    define('BASE_URL_PHP', dirname(__FILE__)); // Mengarah ke folder root proyek saat di localhost
+    define('BASE_URL_PHP', dirname(__DIR__)); // Mengarah ke folder root proyek saat di localhost
 } else {
     define('BASE_URL_HTML', ''); // Untuk hosting, tidak perlu prefiks
     define('BASE_URL_PHP', dirname(__DIR__)); // Mengarah ke folder root proyek saat di hosting

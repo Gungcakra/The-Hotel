@@ -4,6 +4,7 @@ require_once ".././library/konfigurasi.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiTanggal.php";
 checkUserSession($db);
+// var_dump(BASE_URL_PHP);
 //CEK USER
 
 // DATA RESERVATION BULAN INI
