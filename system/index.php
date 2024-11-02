@@ -1,5 +1,5 @@
 <?php
-require_once "../library/konfigurasi.php";
+require_once ".././library/konfigurasi.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiTanggal.php";
 //CEK USER
