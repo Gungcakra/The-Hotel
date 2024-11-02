@@ -63,7 +63,7 @@ function query($query, $params = []) {
 // Cek host untuk menentukan BASE_URL
 // Cek host untuk menentukan BASE_URL
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
-    define('BASE_URL_HTML', dirname(__FILE__));;
+    define('BASE_URL_HTML', '/thehotel');
     define('BASE_URL_PHP', dirname(__FILE__)); // Mengarah ke folder root proyek saat di localhost
 } else {
     define('BASE_URL_HTML', ''); // Untuk hosting, tidak perlu prefiks
@@ -74,7 +74,7 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
 
 function checkUserSession($db) {
     // session_start();
-    var_dump($_SESSION['userId']);
+    
     // Cek apakah pengguna sudah login dan memiliki token CSRF
     if (!isset($_SESSION['userId']) || !isset($_SESSION['csrf_token'])) {
         session_destroy(); // Hapus sesi jika tidak ada

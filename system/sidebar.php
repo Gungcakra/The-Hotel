@@ -15,7 +15,7 @@ $current_dir = getCurrentDirectory();
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= BASE_URL_HTML ?>/thehotel/system/">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= BASE_URL_HTML ?>/system/">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -26,7 +26,7 @@ $current_dir = getCurrentDirectory();
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item <?= ($current_dir == '/thehotel/system') ? 'active' : '' ?>">
+    <li class="nav-item <?= ($current_dir == '/system') ? 'active' : '' ?>">
         <a class="nav-link" href="<?= BASE_URL_HTML ?>/system/">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -38,23 +38,23 @@ $current_dir = getCurrentDirectory();
 
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item <?= ($current_dir == '/thehotel/system/extra' || $current_dir == '/thehotel/system/room' || $current_dir == '/thehotel/system/employee' || $current_dir == '/thehotel/system/guest' || $current_dir == '/thehotel/system/role' || $current_dir == '/thehotel/system/user' || $current_dir == '/thehotel/system/role' || $current_dir == '/thehotel/system/reservation' || $current_dir == '/thehotel/system/roomType') ? 'active' : '' ?>">
+    <li class="nav-item <?= ($current_dir == '/system/extra' || $current_dir == '/system/room' || $current_dir == '/system/employee' || $current_dir == '/system/guest' || $current_dir == '/system/role' || $current_dir == '/system/user' || $current_dir == '/system/role' || $current_dir == '/system/reservation' || $current_dir == '/system/roomType') ? 'active' : '' ?>">
 
         <a class="nav-link" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="<?= ($current_dir == '/thehotel/system/extra' || $current_dir == '/thehotel/system/role' || $current_dir == '/thehotel/system/user' || $current_dir == '/thehotel/system/role' || $current_dir == '/thehotel/system/reservation' || $current_dir == '/thehotel/system/roomType' || $current_dir == '/thehotel/system/room' || $current_dir == '/thehotel/system/employee' || $current_dir == '/thehotel/system/guest') ? 'true' : 'false' ?>" aria-controls="collapseTwo">
+            aria-expanded="<?= ($current_dir == '/system/extra' || $current_dir == '/system/role' || $current_dir == '/system/user' || $current_dir == '/system/role' || $current_dir == '/system/reservation' || $current_dir == '/system/roomType' || $current_dir == '/system/room' || $current_dir == '/system/employee' || $current_dir == '/system/guest') ? 'true' : 'false' ?>" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-database"></i>
             <span>DATA</span>
         </a>
-        <div id="collapseTwo" class="collapse <?= ($current_dir == '/thehotel/system/extra' || $current_dir == '/thehotel/system/room' || $current_dir == '/thehotel/system/employee' || $current_dir == '/thehotel/system/guest' || $current_dir == '/thehotel/system/role' || $current_dir == '/thehotel/system/user' || $current_dir == '/thehotel/system/role' || $current_dir == '/thehotel/system/reservation' || $current_dir == '/thehotel/system/roomType') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse <?= ($current_dir == '/system/extra' || $current_dir == '/system/room' || $current_dir == '/system/employee' || $current_dir == '/system/guest' || $current_dir == '/system/role' || $current_dir == '/system/user' || $current_dir == '/system/role' || $current_dir == '/system/reservation' || $current_dir == '/system/roomType') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/system/room' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/room/">Room</a>
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/system/roomType' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/roomType/">Room Type</a>
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/system/extra' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/extra/">Extra</a>
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/system/user' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/user/">User</a>
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/system/employee' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/employee/">Employee</a>
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/system/role' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/role/">Role</a>
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/system/guest' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/guest/">Guest</a>
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/system/reservation' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/reservation/">Reservation</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/system/room' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/room/">Room</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/system/roomType' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/roomType/">Room Type</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/system/extra' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/extra/">Extra</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/system/user' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/user/">User</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/system/employee' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/employee/">Employee</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/system/role' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/role/">Role</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/system/guest' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/guest/">Guest</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/system/reservation' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/system/reservation/">Reservation</a>
             </div>
         </div>
     </li>
@@ -62,16 +62,16 @@ $current_dir = getCurrentDirectory();
 
 
 
-    <li class="nav-item <?= ($current_dir == '/thehotel/operational/reservation' ) ? 'active' : '' ?>">
+    <li class="nav-item <?= ($current_dir == '/operational/reservation' ) ? 'active' : '' ?>">
 
         <a class="nav-link" data-toggle="collapse" data-target="#collapseThree"
-            aria-expanded="<?= ($current_dir == '/thehotel/operational/reservation') ? 'true' : 'false' ?>" aria-controls="collapseThree">
+            aria-expanded="<?= ($current_dir == '/operational/reservation') ? 'true' : 'false' ?>" aria-controls="collapseThree">
             <i class="fas fa-fw fa-briefcase"></i>
             <span>OPERATIONAL</span>
         </a>
-        <div id="collapseThree" class="collapse <?= ($current_dir == '/thehotel/operational/reservation') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseThree" class="collapse <?= ($current_dir == '/operational/reservation') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
-                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/thehotel/operational/reservation' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/operational/reservation/">Reservation</a>
+                <a class="collapse-item font-weight-bold text-white <?= $current_dir == '/operational/reservation' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/operational/reservation/">Reservation</a>
 
             </div>
         </div>
