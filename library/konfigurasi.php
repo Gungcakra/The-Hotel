@@ -74,7 +74,7 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
 
 function checkUserSession($db) {
     // session_start();
-
+    var_dump($_SESSION['userId']);
     // Cek apakah pengguna sudah login dan memiliki token CSRF
     if (!isset($_SESSION['userId']) || !isset($_SESSION['csrf_token'])) {
         session_destroy(); // Hapus sesi jika tidak ada
