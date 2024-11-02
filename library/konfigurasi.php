@@ -64,7 +64,7 @@ define('BASE_URL_HTML', '/thehotel');
 define('BASE_URL_PHP', $_SERVER['DOCUMENT_ROOT'] . '/thehotel');
 
 function checkUserSession($db) {
-    session_start();
+    // session_start();
 
     // Cek apakah pengguna sudah login dan memiliki token CSRF
     if (!isset($_SESSION['userId']) || !isset($_SESSION['csrf_token'])) {

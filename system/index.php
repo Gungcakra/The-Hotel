@@ -2,11 +2,11 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-checkUserSession($db);
-
+session_start();
 require_once ".././library/konfigurasi.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiTanggal.php";
+checkUserSession($db);
 //CEK USER
 
 // DATA RESERVATION BULAN INI
