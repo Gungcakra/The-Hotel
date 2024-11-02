@@ -1,35 +1,10 @@
 <?php
+if ($_SERVER['HTTP_HOST'] === 'localhost'){
+    
+    $db = mysqli_connect("localhost","root","","thehoteldb");
+}else if($_SERVER['HTTP_HOST'] === 'thehotel.cakra-portfolio.my.id'){
+    $db = mysqli_connect("localhost","u686303384_thehotel","#Thehotel12","u686303384_thehoteldb");
 
-$config = [
-    'localhost' => [
-        'DB_HOST' => 'localhost',
-        'DB_NAME' => 'thehoteldb',
-        'DB_USERNAME' => 'root',
-        'DB_PASSWORD' => '',
-    ],
-    'thehotel.cakra-portfolio.my.id' => [
-        'DB_HOST' => 'localhost',
-        'DB_NAME' => 'u686303384_thehoteldb',
-        'DB_USERNAME' => 'u686303384_thehotel',
-        'DB_PASSWORD' => '#Thehotel12',
-    ],
-];
-
-// Fungsi untuk mendapatkan konfigurasi berdasarkan host
-function getDatabaseConfig($config) {
-    $host = $_SERVER['HTTP_HOST'];
-    return $config[$host] ?? $config['localhost'];
-}
-
-// Ambil konfigurasi yang sesuai
-$dbConfig = getDatabaseConfig($config);
-
-// Koneksi database menggunakan mysqli
-$db = mysqli_connect($dbConfig['DB_HOST'], $dbConfig['DB_USERNAME'], $dbConfig['DB_PASSWORD'], $dbConfig['DB_NAME']);
-
-// Cek koneksi
-if (!$db) {
-    die("Connection failed: " . mysqli_connect_error());
 }
 
 // LAMBDA FUNCTION FOR CONCATING CONSTANT
@@ -42,10 +17,11 @@ function query($query, $params = []) {
 
     // Prepare the statement
     $stmt = mysqli_prepare($db, $query);
-    
-    if ($params) {
-        // Bind parameters if they exist
-        $types = str_repeat('s', count($params)); // Assuming all parameters are strings
+
+    // Bind parameters if any are provided
+    if (!empty($params)) {
+        // Dynamically bind the parameters
+        $types = str_repeat("s", count($params)); // Assumes all parameters are strings; adjust if needed
         mysqli_stmt_bind_param($stmt, $types, ...$params);
     }
 
@@ -57,14 +33,22 @@ function query($query, $params = []) {
     if ($queryType === 'SELECT') {
         // Fetch results for SELECT queries
         $result = mysqli_stmt_get_result($stmt);
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $rows = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+        mysqli_stmt_close($stmt);
+        return $rows;
     } else {
         // For INSERT, UPDATE, DELETE queries, return affected rows
-        return mysqli_affected_rows($db); // Returns the number of affected rows
+        $affectedRows = mysqli_stmt_affected_rows($stmt);
+        mysqli_stmt_close($stmt);
+        return $affectedRows; // Returns the number of affected rows
     }
 }
 
-// Cek host untuk menentukan BASE_URL
+
+
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
     define('BASE_URL_HTML', '/thehotel');
     define('BASE_URL_PHP', dirname(__DIR__)); // Mengarah ke folder root proyek saat di localhost
@@ -73,7 +57,9 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
     define('BASE_URL_PHP', dirname(__DIR__)); // Mengarah ke folder root proyek saat di hosting
 }
 
-function checkUserSession() {
+
+function checkUserSession($db) {
+
     // Cek apakah pengguna sudah login dan memiliki token CSRF
     if (!isset($_SESSION['userId']) || !isset($_SESSION['csrf_token'])) {
         session_destroy(); // Hapus sesi jika tidak ada
@@ -81,14 +67,11 @@ function checkUserSession() {
         exit();
     }
 
-    global $db;
     // Cek apakah userId ada di database
     $query = "SELECT * FROM user WHERE userId = ?";
-    $stmt = mysqli_prepare($db, $query);
-    mysqli_stmt_bind_param($stmt, 'i', $_SESSION['userId']);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $user = mysqli_fetch_assoc($result);
+    $stmt = $db->prepare($query);
+    $stmt->execute([$_SESSION['userId']]);
+    $user = $stmt->fetch();
 
     if (!$user) {
         session_destroy(); 
@@ -104,3 +87,5 @@ function encryptUrl($url) {
 function decryptUrl($encryptedUrl) {
     return base64_decode($encryptedUrl);
 }
+
+
