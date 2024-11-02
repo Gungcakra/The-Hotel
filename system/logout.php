@@ -6,10 +6,10 @@ checkUserSession($db);
 if (isset($_GET['token']) && $_GET['token'] === $_SESSION['csrf_token']) {
     // Hapus sesi
     session_destroy();
-    header("Location: /thehotel");
+    header("Location: " . BASE_URL_HTML);
     exit();
 } else {
     // Token tidak valid, redirect
-    header("Location: /thehotel");
+    header("Location: /thehotel" . BASE_URL_HTML);
     exit();
 }
