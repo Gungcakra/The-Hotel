@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once "../../library/konfigurasi.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 

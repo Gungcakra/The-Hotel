@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once "../../library/konfigurasi.php";
 
 
@@ -40,7 +41,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
     } else {
         echo json_encode([
             "status" => false,
-            "pesan" => "Failed to delete Room Type: " . mysqli_error($db)
+            "pesan" => "Failed to delete Room Type: "
         ]);
     }
 } else if ($_POST['flag'] && $_POST['flag'] === 'update') {
@@ -61,7 +62,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
         } else {
             echo json_encode([
                 "status" => false,
-                "pesan" => "Failed to update Room Type: " . mysqli_error($db)
+                "pesan" => "Failed to update Room Type: "
             ]);
         }
 }

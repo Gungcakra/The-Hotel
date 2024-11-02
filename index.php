@@ -4,7 +4,7 @@ session_start();
 
 // Cek apakah pengguna sudah login
 if (isset($_SESSION['idUser'])) {
-    header('Location: /system/');
+    header('Location: '. BASE_URL_HTML .'/system/');
     exit();
 }
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['userId'] = $user[0]['userId'];
         // Generate Token CSRF
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); 
-        header('Location: /system/');
+        header('Location: '. BASE_URL_HTML .'/system/');
         exit();
     } else {
         $error = "Username atau password salah.";
@@ -41,9 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="description" content="">
     <meta name="author" content="">
     <title>SB Admin 2 - Login</title>
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<?= BASE_URL_HTML ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?= BASE_URL_HTML ?>/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gradient-primary">
