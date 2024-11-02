@@ -25,12 +25,12 @@ if ($flag === 'cari') {
 }
 
 // Count total records
-$totalQuery = "SELECT COUNT(*) as total FROM roomTypes" . $conditions;
+$totalQuery = "SELECT COUNT(*) as total FROM roomtypes" . $conditions;
 $totalResult = query($totalQuery, $params);
 $totalRecords = $totalResult[0]['total'];
 $totalPages = ceil($totalRecords / $limit); // Calculate total pages
 
-$query = "SELECT * FROM roomTypes" . $conditions . " LIMIT ? OFFSET ?";
+$query = "SELECT * FROM roomtypes" . $conditions . " LIMIT ? OFFSET ?";
 $params[] = $limit;
 $params[] = $offset; // Add offset to params
 $roomType = query($query, $params);

@@ -44,8 +44,8 @@ $params[] = $limit;
 $params[] = $offset;
 $employee = query($query, $params);
 $guest = query("SELECT *
-FROM Guests
-WHERE guestId NOT IN (SELECT guestId FROM Reservations) ORDER BY name ASC;
+FROM guests
+WHERE guestId NOT IN (SELECT guestId FROM reservations) ORDER BY name ASC;
 ");
 $extra = query("SELECT * FROM extra ORDER BY name ASC");
 $room = query(

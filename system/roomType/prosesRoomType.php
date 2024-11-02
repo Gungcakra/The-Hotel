@@ -12,7 +12,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
     $typeName = $_POST['typeName'];
     $price = $_POST['price'];
 
-    $query = "INSERT INTO roomTypes (typeName, price) VALUES (?, ?)";
+    $query = "INSERT INTO roomtypes (typeName, price) VALUES (?, ?)";
 
     $result = query($query, [$typeName, $price]);
 
@@ -30,7 +30,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
 } else if (isset($_POST['flag']) && $_POST['flag'] === 'delete') {
     $roomTypeId = $_POST['roomTypeId'];
 
-    $query = "DELETE FROM roomTypes WHERE roomTypeId = ?";
+    $query = "DELETE FROM roomtypes WHERE roomTypeId = ?";
     $result = query($query, [$roomTypeId]);
 
     if ($result > 0) {

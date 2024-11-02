@@ -6,7 +6,7 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-$roomType = query("SELECT * FROM roomTypes");
+$roomType = query("SELECT * FROM roomtypes");
 
 ?>
 
