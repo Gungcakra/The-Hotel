@@ -63,7 +63,7 @@ function checkUserSession($db) {
     // Cek apakah pengguna sudah login dan memiliki token CSRF
     if (!isset($_SESSION['userId']) || !isset($_SESSION['csrf_token'])) {
         session_destroy(); // Hapus sesi jika tidak ada
-        header("Location: /thehotel"); // Redirect ke halaman /thehotel
+        header("Location: " . BASE_URL_HTML); // Redirect ke halaman /thehotel
         exit();
     }
 
@@ -75,7 +75,7 @@ function checkUserSession($db) {
 
     if (!$user) {
         session_destroy(); 
-        header("Location: /thehotel");
+        header("Location: " . BASE_URL_HTML);
         exit();
     }
 }
