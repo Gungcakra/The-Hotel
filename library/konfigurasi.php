@@ -1,6 +1,5 @@
 <?php
 
-// Konfigurasi database untuk lingkungan DEVELOPMENT dan PRODUCTION
 $config = [
     'localhost' => [
         'DB_HOST' => 'localhost',
@@ -9,38 +8,32 @@ $config = [
         'DB_PASSWORD' => '',
     ],
     'thehotel.cakra-portfolio.my.id' => [
-        'DB_HOST' => 'localhost',
+        'DB_HOST' => 'localhost', // Hostname baru
         'DB_NAME' => 'u686303384_thehoteldb',
         'DB_USERNAME' => 'u686303384_thehotel',
-        'DB_PASSWORD' => '#G[B/zL#S>x2b#',
+        'DB_PASSWORD' => '#Thehotel12',
     ],
 ];
 
 // Fungsi untuk mendapatkan konfigurasi berdasarkan host
 function getDatabaseConfig($config) {
     $host = $_SERVER['HTTP_HOST'];
-    if (isset($config[$host])) {
-        return $config[$host];
-    }
-    // Default ke konfigurasi localhost jika host tidak ditemukan
-    return $config['localhost'];
+    return $config[$host] ?? $config['localhost'];
 }
 
 // Ambil konfigurasi yang sesuai
 $dbConfig = getDatabaseConfig($config);
 
-// Lakukan koneksi database
-$db = mysqli_connect($dbConfig['DB_HOST'], $dbConfig['DB_USERNAME'], $dbConfig['DB_PASSWORD'], $dbConfig['DB_NAME']);
+// Koneksi database menggunakan PDO
+try {
+    $dsn = "mysql:host={$dbConfig['DB_HOST']};port=3306;dbname={$dbConfig['DB_NAME']};charset=utf8mb4";
 
-// Periksa koneksi
-if (!$db) {
-    die("Connection failed: " . mysqli_connect_error());
+    $db = new PDO($dsn, $dbConfig['DB_USERNAME'], $dbConfig['DB_PASSWORD']);
+    // Set mode error PDO untuk menampilkan exception
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
-
-
-
-
-
 
 // LAMBDA FUNCTION FOR CONCATING CONSTANT
 $constant = function (string $name) {
@@ -51,43 +44,24 @@ function query($query, $params = []) {
     global $db;
 
     // Prepare the statement
-    $stmt = mysqli_prepare($db, $query);
+    $stmt = $db->prepare($query);
 
-    // Bind parameters if any are provided
-    if (!empty($params)) {
-        // Dynamically bind the parameters
-        $types = str_repeat("s", count($params)); // Assumes all parameters are strings; adjust if needed
-        mysqli_stmt_bind_param($stmt, $types, ...$params);
-    }
-
-    // Execute the query
-    mysqli_stmt_execute($stmt);
+    // Execute the query with parameters if any are provided
+    $stmt->execute($params);
 
     // Determine if the query is SELECT or not
     $queryType = strtoupper(explode(' ', trim($query))[0]);
     if ($queryType === 'SELECT') {
         // Fetch results for SELECT queries
-        $result = mysqli_stmt_get_result($stmt);
-        $rows = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $rows[] = $row;
-        }
-        mysqli_stmt_close($stmt);
-        return $rows;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } else {
         // For INSERT, UPDATE, DELETE queries, return affected rows
-        $affectedRows = mysqli_stmt_affected_rows($stmt);
-        mysqli_stmt_close($stmt);
-        return $affectedRows; // Returns the number of affected rows
+        return $stmt->rowCount(); // Returns the number of affected rows
     }
 }
 
-
-
-
 define('BASE_URL_HTML', '/thehotel');
 define('BASE_URL_PHP', $_SERVER['DOCUMENT_ROOT'] . '/thehotel');
-
 
 function checkUserSession($db) {
     session_start();
@@ -119,5 +93,3 @@ function encryptUrl($url) {
 function decryptUrl($encryptedUrl) {
     return base64_decode($encryptedUrl);
 }
-
-
