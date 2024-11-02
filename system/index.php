@@ -1,9 +1,13 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+checkUserSession($db);
+
 require_once ".././library/konfigurasi.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 require_once "{$constant('BASE_URL_PHP')}/library/fungsiTanggal.php";
 //CEK USER
-checkUserSession($db);
 
 // DATA RESERVATION BULAN INI
 $currentMonth = date('m');
