@@ -10,6 +10,6 @@ if (isset($_GET['token']) && $_GET['token'] === $_SESSION['csrf_token']) {
     exit();
 } else {
     // Token tidak valid, redirect
-    header("Location: /thehotel" . BASE_URL_HTML);
+    header("Location: " . BASE_URL_HTML);
     exit();
 }
