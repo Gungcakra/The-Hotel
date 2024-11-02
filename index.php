@@ -4,7 +4,7 @@ session_start();
 
 // Cek apakah pengguna sudah login
 if (isset($_SESSION['idUser'])) {
-    header("Location: /thehotel/system/");
+    header('Location: '. BASE_URL_HTML .'/system/');
     exit();
 }
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['userId'] = $user[0]['userId'];
         // Generate Token CSRF
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); 
-        header("Location: /thehotel/system/"); 
+        header('Location: '. BASE_URL_HTML .'/system/');
         exit();
     } else {
         $error = "Username atau password salah.";

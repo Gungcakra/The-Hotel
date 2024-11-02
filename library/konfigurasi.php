@@ -1,5 +1,46 @@
 <?php
-$db = mysqli_connect("localhost","root","","thehoteldb");
+
+// Konfigurasi database untuk lingkungan DEVELOPMENT dan PRODUCTION
+$config = [
+    'localhost' => [
+        'DB_HOST' => 'localhost',
+        'DB_NAME' => 'thehoteldb',
+        'DB_USERNAME' => 'root',
+        'DB_PASSWORD' => '',
+    ],
+    'thehotel.cakra-portfolio.my.id' => [
+        'DB_HOST' => 'localhost',
+        'DB_NAME' => 'u686303384_thehoteldb',
+        'DB_USERNAME' => 'u686303384_thehotel',
+        'DB_PASSWORD' => '#G[B/zL#S>x2b#',
+    ],
+];
+
+// Fungsi untuk mendapatkan konfigurasi berdasarkan host
+function getDatabaseConfig($config) {
+    $host = $_SERVER['HTTP_HOST'];
+    if (isset($config[$host])) {
+        return $config[$host];
+    }
+    // Default ke konfigurasi localhost jika host tidak ditemukan
+    return $config['localhost'];
+}
+
+// Ambil konfigurasi yang sesuai
+$dbConfig = getDatabaseConfig($config);
+
+// Lakukan koneksi database
+$db = mysqli_connect($dbConfig['DB_HOST'], $dbConfig['DB_USERNAME'], $dbConfig['DB_PASSWORD'], $dbConfig['DB_NAME']);
+
+// Periksa koneksi
+if (!$db) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+
+
+
+
 
 // LAMBDA FUNCTION FOR CONCATING CONSTANT
 $constant = function (string $name) {
