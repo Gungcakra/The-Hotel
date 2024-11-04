@@ -19,7 +19,7 @@ function daftarUser() {
     url: "daftarUser.php",
     type: "post",
     data: {
-      flag: "daftar"
+      flagUser: "daftar"
     },
     beforeSend: function () {
       $(".overlay").show();
@@ -75,7 +75,7 @@ function deleteUser(id) {
         type: "post",
         data: {
           userId: id,
-          flag: "delete",
+          flagUser: "delete",
         },
         dataType: "json",
 
@@ -101,7 +101,7 @@ function loadPage(pageNumber) {
       type: "POST",
       url: "daftarUser.php",
       data: {
-          flag: 'cari',
+          flagUser: 'cari',
           page: pageNumber,
           searchQuery: $('#searchQuery').val(),
           limit: limit 
@@ -133,7 +133,7 @@ function editUserModal(user) {
   const roleSelect = document.getElementById('employeeId');
   roleSelect.value = user.employeeId;
 
-  document.getElementById('flag').value = 'update';
+  document.getElementById('flagUser').value = 'update';
 }
 
 
@@ -152,7 +152,7 @@ function cariDaftarUser() {
 				searchQuery: searchQuery,
 				roleId: roleId,
 				limit: limit,
-				flag: "cari",
+				flagUser: "cari",
 			},
 			beforeSend: function () {
 			
@@ -166,7 +166,7 @@ function cariDaftarUser() {
 			url: "daftarUser.php",
 			type: "post",
 			data: {
-				flag: "daftar",
+				flagUser: "daftar",
 			},
 			beforeSend: function () {
 			

@@ -2,11 +2,12 @@
 session_start();
 
 require_once "../../library/konfigurasi.php";
+require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 
 //CEK USER
 checkUserSession($db);
 
-$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
+$flagRole = isset($_POST['flagRole']) ? $_POST['flagRole'] : '';
 $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
 $page = isset($_POST['page']) ? $_POST['page'] : 1;
@@ -14,7 +15,7 @@ $offset = ($page - 1) * $limit;
 $conditions = '';
 $params = [];
 
-if ($flag === 'cari') {
+if ($flagRole === 'cari') {
 
 
   if (!empty($searchQuery)) {
@@ -41,12 +42,13 @@ $role = query($query, $params);
         <th scope="col">#</th>
         <th scope="col">Action</th>
         <th scope="col">Role Name</th>
+        <th scope="col">Salary</th>
       </tr>
     </thead>
     <tbody>
       <?php
       if ($role) {
-        $no = $offset + 1; // Update the numbering based on the offset
+        $no = $offset + 1; 
         foreach ($role as $rm):
       ?>
           <tr>
@@ -65,6 +67,7 @@ $role = query($query, $params);
               </div>
             </td>
             <td><?= $rm['roleName'] ?></td>
+            <td><?= rupiah($rm['salary']) ?></td>
           </tr>
         <?php
           $no++;
@@ -115,12 +118,15 @@ $role = query($query, $params);
       <div class="modal-body">
         <form id="formRole" method="post">
           <input autocomplete="off" type="hidden" id="roleId" name="roleId">
-          <input autocomplete="off" type="hidden" id="flag" name="flag" value="update">
+          <input autocomplete="off" type="hidden" id="flagRole" name="flagRole">
           <div class="form-group">
             <label for="extraNumber">Role Name</label>
             <input autocomplete="off" type="text" name="roleName" id="roleName" class="form-control" placeholder="Add Role Name" autocomplete="off">
           </div>
-
+          <div class="form-group">
+            <label for="extraNumber">Salary</label>
+            <input autocomplete="off" type="text" name="salary" id="salary" class="form-control" placeholder="Add Salary" autocomplete="off">
+          </div>
 
         </form>
       </div>
@@ -134,9 +140,9 @@ $role = query($query, $params);
 
 
 <script>
-  document.getElementById('flag').value = 'add';
+  document.getElementById('flagRole').value = 'add';
   $('#roleModal').on('hidden.bs.modal', function() {
     $('#formRole')[0].reset();
-    document.getElementById('flag').value = 'add';
+    document.getElementById('flagRole').value = 'add';
   });
 </script>

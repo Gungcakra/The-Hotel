@@ -1,14 +1,3 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   fetch("daftarRole.php")
-//     .then((response) => response.text())
-//     .then((data) => {
-//       document.getElementById("daftarRole").innerHTML = data;
-//     })
-//     .catch((error) => console.error("Error loading daftarRole:", error));
-//   if (document.readyState === "complete") {
-//     daftarRole();
-//   }
-// });
 document.addEventListener("DOMContentLoaded", function (event) {
   daftarRole(); 
 });
@@ -19,7 +8,7 @@ function daftarRole() {
     url: "daftarRole.php",
     type: "post",
     data: {
-      flag: "daftar"
+      flagRole: "daftar"
     },
     beforeSend: function () {
       $(".overlay").show();
@@ -75,7 +64,7 @@ function deleteRole(id) {
         type: "post",
         data: {
           roleId: id,
-          flag: "delete",
+          flagRole: "delete",
         },
         dataType: "json",
 
@@ -101,7 +90,7 @@ function loadPage(pageNumber) {
       type: "POST",
       url: "daftarRole.php",
       data: {
-          flag: 'cari',
+          flagRole: 'cari',
           page: pageNumber,
           searchQuery: $('#searchQuery').val(),
           limit: limit 
@@ -115,7 +104,8 @@ function loadPage(pageNumber) {
 function editRoleModal(role) {
   document.getElementById('roleId').value = role.roleId;
   document.getElementById('roleName').value = role.roleName;
-  document.getElementById('flag').value = 'update';
+  document.getElementById('salary').value = role.salary;
+  document.getElementById('flagRole').value = 'update';
 }
 
 
@@ -132,7 +122,7 @@ function cariDaftarRole() {
 			data: {
 				searchQuery: searchQuery,
 				limit: limit,
-				flag: "cari",
+				flagRole: "cari",
 			},
 			beforeSend: function () {
 			
@@ -146,7 +136,7 @@ function cariDaftarRole() {
 			url: "daftarRole.php",
 			type: "post",
 			data: {
-				flag: "daftar",
+				flagRole: "daftar",
 			},
 			beforeSend: function () {
 			

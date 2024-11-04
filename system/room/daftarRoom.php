@@ -8,17 +8,20 @@ require_once "../../library/konfigurasi.php";
 
 //CEK USER
 checkUserSession($db);
+// CEK STATUS ROOM
+$currentDate = date("Y-m-d");
 
-$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
+// 
+$flagRoom = isset($_POST['flagRoom']) ? $_POST['flagRoom'] : '';
 $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 $roomStatus = isset($_POST['roomStatus']) ? $_POST['roomStatus'] : '';
 $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
-$page = isset($_POST['page']) ? $_POST['page'] : 1; // Get current page number
-$offset = ($page - 1) * $limit; // Calculate offset for SQL query
+$page = isset($_POST['page']) ? $_POST['page'] : 1; 
+$offset = ($page - 1) * $limit;
 $conditions = '';
 $params = [];
 
-if ($flag === 'cari') {
+if ($flagRoom === 'cari') {
   if (!empty($roomStatus)) {
     $searchQuery = '';
     $conditions .= " WHERE rooms.status = ?";
@@ -32,17 +35,16 @@ if ($flag === 'cari') {
   }
 }
 
-// Count total records
 $totalQuery = "SELECT COUNT(*) as total FROM rooms INNER JOIN roomtypes ON rooms.roomTypeId = roomtypes.roomTypeId" . $conditions;
 $totalResult = query($totalQuery, $params);
 $totalRecords = $totalResult[0]['total'];
-$totalPages = ceil($totalRecords / $limit); // Calculate total pages
+$totalPages = ceil($totalRecords / $limit); 
 
 $query = "SELECT rooms.*, roomtypes.typeName 
           FROM rooms 
-          INNER JOIN roomtypes ON rooms.roomTypeId = roomtypes.roomTypeId" . $conditions . " LIMIT ? OFFSET ?";
+          INNER JOIN roomtypes ON rooms.roomTypeId = roomtypes.roomTypeId" . $conditions . " ORDER BY rooms.roomNumber ASC LIMIT ? OFFSET ?";
 $params[] = $limit;
-$params[] = $offset; // Add offset to params
+$params[] = $offset; 
 $room = query($query, $params);
 $roomType = query("SELECT * FROM roomtypes");
 ?>
@@ -130,7 +132,7 @@ $roomType = query("SELECT * FROM roomtypes");
       <div class="modal-body">
         <form id="formRoom" method="post">
           <input type="hidden" id="roomId" name="roomId">
-          <input type="hidden" id="flag" name="flag" value="update"> <!-- Hidden action field -->
+          <input type="hidden" id="flagRoom" name="flagRoom" > 
           <div class="form-group">
             <label for="roomNumber">Room Number</label>
             <input type="number" name="roomNumber" id="roomNumber" class="form-control" placeholder="Add Room Number" autocomplete="off">
@@ -166,9 +168,9 @@ $roomType = query("SELECT * FROM roomtypes");
 <script>
   
 // Reset modal on close
-document.getElementById('flag').value = 'add';
+document.getElementById('flagRoom').value = 'add';
 $('#roomModal').on('hidden.bs.modal', function () {
   $('#formRoom')[0].reset();
-  document.getElementById('flag').value = 'add';
+  document.getElementById('flagRoom').value = 'add';
 });
 </script>

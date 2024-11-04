@@ -7,8 +7,8 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-// Check if the flag is set
-if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
+// Check if the flagEmployee is set
+if (isset($_POST['flagEmployee']) && $_POST['flagEmployee'] === 'add') {
     $name = $_POST['name'];
     $roleId = $_POST['roleId'];
     $phoneNumber = $_POST['phoneNumber'];
@@ -30,7 +30,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to add Employee."
         ]);
     }
-} else if (isset($_POST['flag']) && $_POST['flag'] === 'delete') {
+} else if (isset($_POST['flagEmployee']) && $_POST['flagEmployee'] === 'delete') {
     $employeeId = $_POST['employeeId'];
 
     $query = "DELETE FROM employees WHERE employeeId = ?";
@@ -47,7 +47,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to delete Employee: " 
         ]);
     }
-} else if ($_POST['flag'] && $_POST['flag'] === 'update') {
+} else if ($_POST['flagEmployee'] && $_POST['flagEmployee'] === 'update') {
     $employeeId = $_POST['employeeId'];
     $name = $_POST['name'];
     $roleId = $_POST['roleId'];

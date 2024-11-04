@@ -6,7 +6,7 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
+$flagGuest = isset($_POST['flagGuest']) ? $_POST['flagGuest'] : '';
 $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 $roleId = isset($_POST['roleId']) ? $_POST['roleId'] : '';
 $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
@@ -15,7 +15,7 @@ $offset = ($page - 1) * $limit;
 $conditions = '';
 $params = [];
 
-if ($flag === 'cari') {
+if ($flagGuest === 'cari') {
 
   if (!empty($searchQuery)) {
     $conditions .= " WHERE name LIKE ?";
@@ -122,7 +122,7 @@ $guest = query($query, $params);
       <div class="modal-body">
         <form id="formGuest" method="post">
           <input autocomplete="off" type="hidden" id="guestId" name="guestId">
-          <input autocomplete="off" type="hidden" id="flag" name="flag" value="update">
+          <input autocomplete="off" type="hidden" id="flagGuest" name="flagGuest">
           <div class="form-group">
             <label for="extraNumber">Name</label>
             <input autocomplete="off" type="text" name="name" id="name" class="form-control" placeholder="Add Guest Name" autocomplete="off">
@@ -154,9 +154,9 @@ $guest = query($query, $params);
 
 <script>
  
-  document.getElementById('flag').value = 'add';
+  document.getElementById('flagGuest').value = 'add';
   $('#guestModal').on('hidden.bs.modal', function() {
     $('#formGuest')[0].reset();
-    document.getElementById('flag').value = 'add';
+    document.getElementById('flagGuest').value = 'add';
   });
 </script>

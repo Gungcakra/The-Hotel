@@ -7,7 +7,7 @@ require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 //CEK USER
 checkUserSession($db);
 
-$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
+$flagExtra = isset($_POST['flagExtra']) ? $_POST['flagExtra'] : '';
 $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
 $page = isset($_POST['page']) ? $_POST['page'] : 1;
@@ -15,7 +15,7 @@ $offset = ($page - 1) * $limit;
 $conditions = '';
 $params = [];
 
-if ($flag === 'cari') {
+if ($flagExtra === 'cari') {
 
   if (!empty($searchQuery)) {
     $conditions .= " WHERE name LIKE ?";
@@ -58,7 +58,7 @@ $extra = query($query, $params);
                 <i class="fa fa-cogs"></i>
               </button>
               <div class="dropdown-menu menu-aksi" aria-labelledby="dropdownMenuButton">
-                <button type="button" class="btn btn-warning btn-sm tombol-dropdown-last" data-toggle="modal" data-target="#extraModal" onclick="EditextraModal(<?= htmlspecialchars(json_encode($rm)) ?>)">
+                <button type="button" class="btn btn-warning btn-sm tombol-dropdown-last" data-toggle="modal" data-target="#extraModalEdit" onclick="extraModalEdit(<?= htmlspecialchars(json_encode($rm,$rm['extraId'])) ?>)">
                   <i class="fa fa-edit"></i> <strong>EDIT</strong>
                 </button>
                 <button type="button" class="btn btn-danger btn-sm tombol-dropdown-last" onclick="deleteExtra('<?= $rm['extraId'] ?>')">
@@ -67,7 +67,7 @@ $extra = query($query, $params);
               </div>
             </td>
             <td><?= $rm['name'] ?></td>
-            <td><?= rupiah($rm['price']) ?></td>
+            <td><?= rupiah($rm['extraId']) ?></td>
           </tr>
         <?php
           $no++;
@@ -106,7 +106,7 @@ $extra = query($query, $params);
 </div>
 
 <!-- Modal Edit extra -->
-<div class="modal fade" id="extraModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="extraModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -116,16 +116,16 @@ $extra = query($query, $params);
         </button>
       </div>
       <div class="modal-body">
-        <form id="formExtra" method="post">
-          <input type="hidden" id="extraId" name="extraId">
-          <input type="hidden" id="flag" name="flag" value="update">
+        <form id="formExtraRoom" method="post">
+          <input type="hidden" id="extraIds" name="extraId">
+          <input type="hidden" id="flagExtra" name="flagExtra">
           <div class="form-group">
             <label for="extraNumber">Extra Name</label>
             <input type="text" name="name" id="name" class="form-control" placeholder="Add Extra Name" autocomplete="off">
           </div>
           <div class="form-group">
             <label for="extraNumber">Extra Price</label>
-            <input type="text" name="price" id="price" class="form-control" placeholder="Add Extra Price" autocomplete="off">
+            <input type="number" name="price" id="price" class="form-control" placeholder="Add Extra Price" autocomplete="off">
           </div>
 
         </form>
@@ -140,9 +140,9 @@ $extra = query($query, $params);
 
 
 <script>
-  document.getElementById('flag').value = 'add';
-  $('#extraModal').on('hidden.bs.modal', function() {
-    $('#formExtra')[0].reset();
-    document.getElementById('flag').value = 'add';
+  document.getElementById('flagExtra').value = 'add';
+  $('#extraModalEdit').on('hidden.bs.modal', function() {
+    $('#formExtraRoom')[0].reset();
+    document.getElementById('flagExtra').value = 'add';
   });
 </script>

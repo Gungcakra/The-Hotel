@@ -7,9 +7,9 @@ checkUserSession($db);
 // var_dump(BASE_URL_PHP);
 //CEK USER
 
-// DATA RESERVATION BULAN INI
 $currentMonth = date('m');
 $currentYear = date('Y');
+// DATA RESERVATION BULAN INI
 $reservasiData = query("
     SELECT 
         COUNT(*) AS totalReservations, 
@@ -51,19 +51,20 @@ $previousMonthRevenueData = query("
 
 $previousMonthRevenue = $previousMonthRevenueData[0]['totalRevenue'] ?? 0;
 
+// CEK PRESENTASE
 if ($previousMonthRevenue > 0) {
     $changePercentage = (($currentMonthRevenue - $previousMonthRevenue) / $previousMonthRevenue) * 100;
 
     if ($changePercentage > 0) {
-        $status = "naik"; // Menunjukkan bahwa pendapatan naik
+        $status = "naik"; 
     } elseif ($changePercentage < 0) {
-        $status = "turun"; // Menunjukkan bahwa pendapatan turun
+        $status = "turun"; 
     } else {
-        $status = "tidak ada perubahan"; // Menunjukkan tidak ada perubahan
+        $status = "sama"; 
     }
 } else {
     $changePercentage = $currentMonthRevenue > 0 ? 100 : 0;
-    $status = $currentMonthRevenue > 0 ? "naik" : "tidak ada pendapatan"; // Jika bulan sebelumnya tidak ada pendapatan
+    $status = $currentMonthRevenue > 0 ? "naik" : "tidak ada pendapatan"; 
 }
 
 
@@ -81,7 +82,7 @@ $query = "SELECT MONTH(checkInDate) as month, SUM(totalPrice + IFNULL(extra.pric
           GROUP BY MONTH(checkInDate)
           ORDER BY MONTH(checkInDate)";
 
-$result = query($query); // Ganti dengan fungsi Anda untuk menjalankan query
+$result = query($query); 
 
 $months = [];
 $revenues = [];
@@ -143,8 +144,8 @@ foreach ($result as $row) {
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="<?= BASE_URL_HTML ?>/#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <!-- <a href="<?= BASE_URL_HTML ?>/#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
                     </div>
 
                     <!-- OVERVIEW -->

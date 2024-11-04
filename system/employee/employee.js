@@ -1,14 +1,3 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   fetch("daftarEmployee.php")
-//     .then((response) => response.text())
-//     .then((data) => {
-//       document.getElementById("daftarEmployee").innerHTML = data;
-//     })
-//     .catch((error) => console.error("Error loading daftarEmployee:", error));
-//   if (document.readyState === "complete") {
-//     daftarEmployee();
-//   }
-// });
 document.addEventListener("DOMContentLoaded", function (event) {
   daftarEmployee(); 
 });
@@ -17,7 +6,7 @@ function daftarEmployee() {
     url: "daftarEmployee.php",
     type: "post",
     data: {
-      flag: "daftar"
+      flagEmployee: "daftar"
     },
     beforeSend: function () {
       $(".overlay").show();
@@ -32,7 +21,7 @@ function daftarEmployee() {
 function prosesEmployee() {
   const formEmployee = document.getElementById("formEmployee");
   const dataForm = new FormData(formEmployee);
-
+  
   $("#employeeModal").modal("hide");
 
   $("#employeeModal").on('hidden.bs.modal', function () {
@@ -73,7 +62,7 @@ function deleteEmployee(id) {
         type: "post",
         data: {
           employeeId: id,
-          flag: "delete",
+          flagEmployee: "delete",
         },
         dataType: "json",
 
@@ -99,7 +88,7 @@ function loadPage(pageNumber) {
       type: "POST",
       url: "daftarEmployee.php",
       data: {
-          flag: 'cari',
+          flagEmployee: 'cari',
           page: pageNumber,
           searchQuery: $('#searchQuery').val(),
           limit: limit 
@@ -114,27 +103,13 @@ function editEmployeeModal(employee) {
   document.getElementById('employeeId').value = employee.employeeId;
   document.getElementById('name').value = employee.name;
 
-  // const roleSelect = document.getElementById('roleId');
-
-  // Array.from(roleSelect.options).forEach(option => {
-  //   option.removeAttribute('selected');
-  // });
-
-  // // Set the 'selected' attribute on the matching option
-  // Array.from(roleSelect.options).forEach(option => {
-  //   if (option.value == employee.roleId) {
-  //     option.setAttribute('selected', 'selected');
-  //   }
-
-  //   console.log(option)
-  // });
   const roleSelect = document.getElementById('roleId');
   roleSelect.value = employee.roleId;
   document.getElementById('phoneNumber').value = employee.phoneNumber;
   document.getElementById('email').value = employee.email;
   document.getElementById('address').value = employee.address;
 
-  document.getElementById('flag').value = 'update';
+  document.getElementById('flagEmployee').value = 'update';
 }
 
 
@@ -153,7 +128,7 @@ function cariDaftarEmployee() {
 				searchQuery: searchQuery,
 				roleId: roleId,
 				limit: limit,
-				flag: "cari",
+				flagEmployee: "cari",
 			},
 			beforeSend: function () {
 			
@@ -167,7 +142,7 @@ function cariDaftarEmployee() {
 			url: "daftarEmployee.php",
 			type: "post",
 			data: {
-				flag: "daftar",
+				flagEmployee: "daftar",
 			},
 			beforeSend: function () {
 			

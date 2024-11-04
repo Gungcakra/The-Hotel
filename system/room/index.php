@@ -37,6 +37,7 @@ $roomType = query("SELECT * FROM roomtypes");
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 
@@ -83,6 +84,7 @@ $roomType = query("SELECT * FROM roomtypes");
                                 </div>
                             </div>
                         </form>
+                        <form id="formExcel" class="ml-2 flex row">
                         <div class="ml-2 ">
                             <select class="custom-select" id="roomStatus" name="roomStatus" onclick="cariDaftarRoom()">
                                 <option value="">All</option>
@@ -99,6 +101,10 @@ $roomType = query("SELECT * FROM roomtypes");
                                 <option value="100">100</option>
                             </select>
                         </div>
+                            <!-- <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-success m-1 shadow-sm ml-2 p-1" onclick="exportExcel()">
+                            <i class="fa-solid fa-file-excel"></i> Download Report
+                            </button> -->
+                        </form>
                         <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#roomModal">
                             <i class="fas fa-plus fa-sm text-white"></i> Add Room
                         </button>

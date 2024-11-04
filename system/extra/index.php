@@ -89,7 +89,7 @@ checkUserSession($db);
                                 <option value="100">100</option>
                             </select>
                         </div>
-                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#extraModal">
+                        <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto" data-toggle="modal" data-target="#extraModalEdit" onclick="resetModal()">
                             <i class="fas fa-plus fa-sm text-white"></i> Add Extra
                         </button>
                     </div>

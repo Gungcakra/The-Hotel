@@ -9,7 +9,7 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
+$flagUser = isset($_POST['flagUser']) ? $_POST['flagUser'] : '';
 $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 $roleId = isset($_POST['roleId']) ? $_POST['roleId'] : '';
 $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
@@ -18,7 +18,7 @@ $offset = ($page - 1) * $limit;
 $conditions = '';
 $params = [];
 
-if ($flag === 'cari') {
+if ($flagUser === 'cari') {
 
   if (!empty($roleId)) {
     $searchQuery = '';
@@ -140,7 +140,7 @@ $employee = query("SELECT * FROM employees");
       <div class="modal-body">
         <form id="formUser" method="post">
           <input autocomplete="off" type="hidden" id="userId" name="userId">
-          <input autocomplete="off" type="hidden" id="flag" name="flag" value="update">
+          <input autocomplete="off" type="hidden" id="flagUser" name="flagUser">
           <div class="form-group">
             <label for="extraNumber">Name</label>
             <input autocomplete="off" type="text" name="username" id="username" class="form-control" placeholder="Add User Name" autocomplete="off">
@@ -172,9 +172,9 @@ $employee = query("SELECT * FROM employees");
 
 
 <script>
-  document.getElementById('flag').value = 'add';
+  document.getElementById('flagUser').value = 'add';
   $('#userModal').on('hidden.bs.modal', function() {
     $('#formUser')[0].reset();
-    document.getElementById('flag').value = 'add';
+    document.getElementById('flagUser').value = 'add';
   });
 </script>

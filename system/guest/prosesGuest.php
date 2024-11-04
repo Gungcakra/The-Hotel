@@ -6,8 +6,8 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-// Check if the flag is set
-if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
+// Check if the flagGuest is set
+if (isset($_POST['flagGuest']) && $_POST['flagGuest'] === 'add') {
     $name = $_POST['name'];
     $phoneNumber = $_POST['phoneNumber'];
     $email = $_POST['email'];
@@ -28,7 +28,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to add Guest."
         ]);
     }
-} else if (isset($_POST['flag']) && $_POST['flag'] === 'delete') {
+} else if (isset($_POST['flagGuest']) && $_POST['flagGuest'] === 'delete') {
     $guestId = $_POST['guestId'];
 
     $query = "DELETE FROM guests WHERE guestId = ?";
@@ -45,7 +45,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to delete Guest: "
         ]);
     }
-} else if ($_POST['flag'] && $_POST['flag'] === 'update') {
+} else if ($_POST['flagGuest'] && $_POST['flagGuest'] === 'update') {
     $guestId = $_POST['guestId'];
     $name = $_POST['name'];
     $phoneNumber = $_POST['phoneNumber'];

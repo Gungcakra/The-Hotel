@@ -11,6 +11,9 @@ require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 //CEK USER
 checkUserSession($db);
 
+// CEK STATUS ROOM
+$currentDate = date("Y-m-d");
+
 $flag = isset($_POST['flag']) ? $_POST['flag'] : '';
 $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 $roleId = isset($_POST['roleId']) ? $_POST['roleId'] : '';
@@ -49,8 +52,14 @@ $params[] = $offset;
 $employee = query($query, $params);
 $guest = query("SELECT *
 FROM guests
-WHERE guestId NOT IN (SELECT guestId FROM reservations) ORDER BY name ASC;
-");
+WHERE guestId NOT IN (
+    SELECT guestId 
+    FROM reservations 
+    WHERE checkOutDate >= ?
+)
+ORDER BY name ASC;
+;
+", [$currentDate]);
 $extra = query("SELECT * FROM extra ORDER BY name ASC");
 $room = query(
   "SELECT rooms.*,
@@ -111,7 +120,8 @@ $userId = $_SESSION['userId'];
         <div class="input-group">
           <input type="text" id="rentang" name="rentang" class="form-control" data-date-range="true">
           <div class="input-group-append">
-            <span class="input-group-text"><i class="fas fa-fw fa-calendar-days"></i></span>
+            <span class="input-group-text"> <i class="fa-solid fa-calendar-days"></i>
+            </span>
           </div>
         </div>
       </div>

@@ -99,7 +99,7 @@ $reservation = query($query, $params);
     <tbody>
       <?php
       if ($reservation) {
-        $no = $offset + 1; // Update the numbering based on the offset
+        $no = $offset + 1;
         foreach ($reservation as $rm):
       ?>
           <tr>

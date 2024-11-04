@@ -1,14 +1,3 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   fetch("daftarReservation.php")
-//     .then((response) => response.text())
-//     .then((data) => {
-//       document.getElementById("daftarReservation").innerHTML = data;
-//     })
-//     .catch((error) => console.error("Error loading daftarReservation:", error));
-//   if (document.readyState === "complete") {
-//     daftarReservation();
-//   }
-// });
 document.addEventListener("DOMContentLoaded", function (event) {
   daftarReservation(); 
 });
@@ -35,15 +24,6 @@ function prosesReservation() {
   const formReservation = document.getElementById("formReservation");
   const dataForm = new FormData(formReservation);
   dataForm.append("flag","add");
-//   const formDataObject = {};
-
-// // Mengonversi FormData ke objek
-// dataForm.forEach((value, key) => {
-//     formDataObject[key] = value;
-// });
-
-// // Mencetak objek dalam format JSON
-// console.log(JSON.stringify(formDataObject, null, 2));
 
   $.ajax({
     url: "prosesReservation.php",

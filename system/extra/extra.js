@@ -1,25 +1,13 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   fetch("daftarExtra.php")
-//     .then((response) => response.text())
-//     .then((data) => {
-//       document.getElementById("daftarExtra").innerHTML = data;
-//     })
-//     .catch((error) => console.error("Error loading daftarExtra:", error));
-//   if (document.readyState === "complete") {
-//     daftarExtra();
-//   }
-// });
 document.addEventListener("DOMContentLoaded", function (event) {
-  daftarExtra(); 
+  daftarExtra();
 });
-
 
 function daftarExtra() {
   $.ajax({
     url: "daftarExtra.php",
     type: "post",
     data: {
-      flag: "daftar"
+      flagExtra: "daftar",
     },
     beforeSend: function () {
       $(".overlay").show();
@@ -32,12 +20,12 @@ function daftarExtra() {
 }
 
 function prosesExtra() {
-  const formExtra = document.getElementById("formExtra");
-  const dataForm = new FormData(formExtra);
+  const formExtraRoom = document.getElementById("formExtraRoom");
+  const dataForm = new FormData(formExtraRoom);
 
-  $("#extraModal").modal("hide");
+  $("#extraModalEdit").modal("hide");
 
-  $("#extraModal").on('hidden.bs.modal', function () {
+  $("#extraModalEdit").on("hidden.bs.modal", function () {
     $.ajax({
       url: "prosesExtra.php",
       type: "post",
@@ -47,7 +35,6 @@ function prosesExtra() {
       data: dataForm,
       dataType: "json",
       success: function (data) {
-        console.log(data);
         const { status, pesan } = data;
         notifikasi(status, pesan);
         daftarExtra();
@@ -58,7 +45,6 @@ function prosesExtra() {
     });
   });
 }
-
 
 function deleteExtra(id) {
   Swal.fire({
@@ -75,7 +61,7 @@ function deleteExtra(id) {
         type: "post",
         data: {
           extraId: id,
-          flag: "delete",
+          flagExtra: "delete",
         },
         dataType: "json",
 
@@ -94,70 +80,61 @@ function deleteExtra(id) {
     }
   });
 }
-function EditextraModal(room) {
-  document.getElementById('extraId').value = room.extraId;
-  document.getElementById('name').value = room.name;
-  document.getElementById('price').value = room.price;
-  document.getElementById('flag').value = 'update';
+
+function extraModalEdit(extra) {
+  document.getElementById("extraIds").value = extra.extraId;
+  document.getElementById("name").value = extra.name;
+  document.getElementById("price").value = extra.price;
+  document.getElementById("flagExtra").value = "update";
 }
 
-
 function loadPage(pageNumber) {
-  const limit = $('#limit').val();
+  const limit = $("#limit").val();
   $.ajax({
-      type: "POST",
-      url: "daftarExtra.php",
-      data: {
-          flag: 'cari',
-          page: pageNumber,
-          searchQuery: $('#searchQuery').val(),
-          limit: limit 
-      },
-      success: function (data) {
-          $('#daftarExtra').html(data);
-      }
+    type: "POST",
+    url: "daftarExtra.php",
+    data: {
+      flagExtra: "cari",
+      page: pageNumber,
+      searchQuery: $("#searchQuery").val(),
+      limit: limit,
+    },
+    success: function (data) {
+      $("#daftarExtra").html(data);
+    },
   });
 }
 
-
-
-
-
-
 function cariDaftarExtra() {
-	const searchQuery = $("#searchQuery").val();
+  const searchQuery = $("#searchQuery").val();
   const limit = $("#limit").val();
-	if (searchQuery || limit) {
-		$.ajax({
-			url: "daftarExtra.php",
-			type: "post",
-			data: {
-				searchQuery: searchQuery,
-				limit: limit,
-				flag: "cari",
-			},
-			beforeSend: function () {
-			
-			},
-			success: function (data, status) {
-				$("#daftarExtra").html(data);
-			},
-		});
-	}else  {
-		$.ajax({
-			url: "daftarExtra.php",
-			type: "post",
-			data: {
-				flag: "daftar",
-			},
-			beforeSend: function () {
-			
-			},
-			success: function (data, status) {
-				$("#daftarExtra").html(data);
-			},
-		});
-	}
+  if (searchQuery || limit) {
+    $.ajax({
+      url: "daftarExtra.php",
+      type: "post",
+      data: {
+        searchQuery: searchQuery,
+        limit: limit,
+        flagExtra: "cari",
+      },
+      beforeSend: function () {},
+      success: function (data, status) {
+        $("#daftarExtra").html(data);
+      },
+    });
+  } else {
+    $.ajax({
+      url: "daftarExtra.php",
+      type: "post",
+      data: {
+        flagExtra: "daftar",
+      },
+      beforeSend: function () {},
+      success: function (data, status) {
+        $("#daftarExtra").html(data);
+      },
+    });
+  }
 }
 function notifikasi(status, pesan) {
   if (status === true) {

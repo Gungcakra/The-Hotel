@@ -7,15 +7,15 @@ require_once "{$constant('BASE_URL_PHP')}/library/fungsiRupiah.php";
 //CEK USER
 checkUserSession($db);
 
-$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
+$flagRoomType = isset($_POST['flagRoomType']) ? $_POST['flagRoomType'] : '';
 $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
-$page = isset($_POST['page']) ? $_POST['page'] : 1; // Get current page number
-$offset = ($page - 1) * $limit; // Calculate offset for SQL query
+$page = isset($_POST['page']) ? $_POST['page'] : 1; 
+$offset = ($page - 1) * $limit; 
 $conditions = '';
 $params = [];
 
-if ($flag === 'cari') {
+if ($flagRoomType === 'cari') {
 
 
   if (!empty($searchQuery)) {
@@ -24,15 +24,14 @@ if ($flag === 'cari') {
   }
 }
 
-// Count total records
 $totalQuery = "SELECT COUNT(*) as total FROM roomtypes" . $conditions;
 $totalResult = query($totalQuery, $params);
 $totalRecords = $totalResult[0]['total'];
-$totalPages = ceil($totalRecords / $limit); // Calculate total pages
+$totalPages = ceil($totalRecords / $limit); 
 
 $query = "SELECT * FROM roomtypes" . $conditions . " LIMIT ? OFFSET ?";
 $params[] = $limit;
-$params[] = $offset; // Add offset to params
+$params[] = $offset;
 $roomType = query($query, $params);
 ?>
 
@@ -119,7 +118,7 @@ $roomType = query($query, $params);
       <div class="modal-body">
         <form id="formRoomType" method="post">
           <input type="hidden" id="roomTypeId" name="roomTypeId">
-          <input type="hidden" id="flag" name="flag" value="update"> <!-- Hidden action field -->
+          <input type="text" id="flagRoomType" name="flagRoomType">
           <div class="form-group">
             <label for="roomNumber">Type Name</label>
             <input type="text" name="typeName" id="typeName" class="form-control" placeholder="Add Room Type" autocomplete="off">
@@ -141,10 +140,10 @@ $roomType = query($query, $params);
 
 
 <script>
-  // Reset modal on close
-  document.getElementById('flag').value = 'add';
+ 
+  document.getElementById('flagRoomType').value = 'add';
   $('#roomTypeModal').on('hidden.bs.modal', function() {
     $('#formRoomType')[0].reset();
-    document.getElementById('flag').value = 'add';
+    document.getElementById('flagRoomType').value = 'add';
   });
 </script>

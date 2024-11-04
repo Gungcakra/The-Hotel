@@ -7,8 +7,8 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-// Check if the flag is set
-if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
+// Check if the flagExtra is set
+if (isset($_POST['flagExtra']) && $_POST['flagExtra'] === 'add') {
     $name = $_POST['name'];
     $price = $_POST['price'];
 
@@ -27,7 +27,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to add Extra."
         ]);
     }
-} else if (isset($_POST['flag']) && $_POST['flag'] === 'delete') {
+} else if (isset($_POST['flagExtra']) && $_POST['flagExtra'] === 'delete') {
     $extraId = $_POST['extraId'];
 
     $query = "DELETE FROM extra WHERE extraId = ?";
@@ -44,7 +44,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to delete Extra: "
         ]);
     }
-} else if ($_POST['flag'] && $_POST['flag'] === 'update') {
+} else if ($_POST['flagExtra'] && $_POST['flagExtra'] === 'update') {
         $extraId = $_POST['extraId'];
         $name = $_POST['name'];
         $price = $_POST['price'];
@@ -53,7 +53,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
                 SET name = ?, 
                     price = ?
                 WHERE extraId = ? ";
-        $result = query($query,[$name,$price,$extraId]);
+        $result = query($query,[$name, $price, $extraId]);
         if ($result) {
             echo json_encode([
                 "status" => true,

@@ -2,12 +2,6 @@
 
 
 // Fungsi untuk mendapatkan nama direktori saat ini
-function getCurrentDirectory()
-{
-    $scriptName = $_SERVER['SCRIPT_NAME'];
-    $pathInfo = pathinfo($scriptName);
-    return $pathInfo['dirname'];
-}
 
 $current_dir = getCurrentDirectory();
 
@@ -62,19 +56,24 @@ $current_dir = getCurrentDirectory();
 
 
 
-    <li class="nav-item <?= ($current_dir == BASE_URL_HTML . '/operational/reservation' ) ? 'active' : '' ?>">
+    <li class="nav-item <?= ($current_dir == BASE_URL_HTML . '/operational/reservation' || $current_dir == BASE_URL_HTML . '/operational/report' ) ? 'active' : '' ?>">
 
         <a class="nav-link" data-toggle="collapse" data-target="#collapseThree"
-            aria-expanded="<?= ($current_dir == BASE_URL_HTML . '/operational/reservation') ? 'true' : 'false' ?>" aria-controls="collapseThree">
+            aria-expanded="<?= ($current_dir == BASE_URL_HTML . '/operational/reservation' || $current_dir == BASE_URL_HTML . '/operational/report') ? 'true' : 'false' ?>" aria-controls="collapseThree">
             <i class="fas fa-fw fa-briefcase"></i>
             <span>OPERATIONAL</span>
         </a>
-        <div id="collapseThree" class="collapse <?= ($current_dir == BASE_URL_HTML . '/operational/reservation') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseThree" class="collapse <?= ($current_dir == BASE_URL_HTML . '/operational/reservation' || $current_dir == BASE_URL_HTML . '/operational/report') ? 'show' : '' ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
                 <a class="collapse-item font-weight-bold text-white <?= $current_dir == BASE_URL_HTML . '/operational/reservation' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/operational/reservation/">Reservation</a>
 
+                <div class="py-2 collapse-inner rounded">
+                    <a class="collapse-item font-weight-bold text-white <?= $current_dir == BASE_URL_HTML . '/operational/report' ? 'bg-white text-dark' : '' ?>" href="<?= BASE_URL_HTML ?>/operational/report/">Report</a>
+        
+                </div>
             </div>
         </div>
+     
     </li>
 
 

@@ -6,8 +6,8 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-// Check if the flag is set
-if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
+// Check if the flagRoom is set
+if (isset($_POST['flagRoom']) && $_POST['flagRoom'] === 'add') {
     $roomNumber = $_POST['roomNumber'];
     $roomTypeId = $_POST['roomTypeId'];
 
@@ -26,7 +26,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to add room."
         ]);
     }
-} else if (isset($_POST['flag']) && $_POST['flag'] === 'delete') {
+} else if (isset($_POST['flagRoom']) && $_POST['flagRoom'] === 'delete') {
     $roomId = $_POST['roomId'];
 
     $query = "DELETE FROM rooms WHERE roomId = ?";
@@ -43,7 +43,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to delete room: "
         ]);
     }
-} else if ($_POST['flag'] && $_POST['flag'] === 'update') {
+} else if ($_POST['flagRoom'] && $_POST['flagRoom'] === 'update') {
         $roomId = $_POST['roomId'];
         $roomNumber = $_POST['roomNumber'];
         $roomTypeId = $_POST['roomTypeId'];

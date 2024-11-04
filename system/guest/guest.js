@@ -1,14 +1,3 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   fetch("daftarGuest.php")
-//     .then((response) => response.text())
-//     .then((data) => {
-//       document.getElementById("daftarGuest").innerHTML = data;
-//     })
-//     .catch((error) => console.error("Error loading daftarGuest:", error));
-//   if (document.readyState === "complete") {
-//     daftarGuest();
-//   }
-// });
 document.addEventListener("DOMContentLoaded", function (event) {
   daftarGuest(); 
 });
@@ -19,7 +8,7 @@ function daftarGuest() {
     url: "daftarGuest.php",
     type: "post",
     data: {
-      flag: "daftar"
+      flagGuest: "daftar"
     },
     beforeSend: function () {
       $(".overlay").show();
@@ -75,7 +64,7 @@ function deleteGuest(id) {
         type: "post",
         data: {
           guestId: id,
-          flag: "delete",
+          flagGuest: "delete",
         },
         dataType: "json",
 
@@ -101,7 +90,7 @@ function loadPage(pageNumber) {
       type: "POST",
       url: "daftarGuest.php",
       data: {
-          flag: 'cari',
+          flagGuest: 'cari',
           page: pageNumber,
           searchQuery: $('#searchQuery').val(),
           limit: limit 
@@ -119,11 +108,8 @@ function editGuestModal(guest) {
   document.getElementById('email').value = guest.email;
   document.getElementById('address').value = guest.address;
 
-  document.getElementById('flag').value = 'update';
+  document.getElementById('flagGuest').value = 'update';
 }
-
-
-
 
 
 function cariDaftarGuest() {
@@ -136,7 +122,7 @@ function cariDaftarGuest() {
 			data: {
 				searchQuery: searchQuery,
 				limit: limit,
-				flag: "cari",
+				flagGuest: "cari",
 			},
 			beforeSend: function () {
 			
@@ -150,7 +136,7 @@ function cariDaftarGuest() {
 			url: "daftarGuest.php",
 			type: "post",
 			data: {
-				flag: "daftar",
+				flagGuest: "daftar",
 			},
 			beforeSend: function () {
 			

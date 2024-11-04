@@ -6,7 +6,7 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
+$flagEmployee = isset($_POST['flagEmployee']) ? $_POST['flagEmployee'] : '';
 $searchQuery = isset($_POST['searchQuery']) ? $_POST['searchQuery'] : '';
 $roleId = isset($_POST['roleId']) ? $_POST['roleId'] : '';
 $limit = isset($_POST['limit']) ? $_POST['limit'] : 10;
@@ -15,7 +15,7 @@ $offset = ($page - 1) * $limit;
 $conditions = '';
 $params = [];
 
-if ($flag === 'cari') {
+if ($flagEmployee === 'cari') {
 
   if (!empty($roleId)) {
     $searchQuery = '';
@@ -60,43 +60,45 @@ $role = query("SELECT * FROM employeeroles");
     </thead>
     <tbody>
       <?php
-      if($employee){
+      if ($employee) {
 
-      $no = $offset + 1; // Update the numbering based on the offset
-      foreach ($employee as $rm):
+        $no = $offset + 1;
+        foreach ($employee as $rm):
       ?>
+          <tr>
+            <td><?= $no ?></td>
+            <td>
+              <button type="button" id="dropdownMenuButton" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cogs"></i>
+              </button>
+              <div class="dropdown-menu menu-aksi" aria-labelledby="dropdownMenuButton">
+                <button type="button" class="btn btn-warning btn-sm tombol-dropdown-last" data-toggle="modal" data-target="#employeeModal" onclick="editEmployeeModal(<?= htmlspecialchars(json_encode($rm)) ?>)">
+                  <i class="fa fa-edit"></i> <strong>EDIT</strong>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm tombol-dropdown-last" onclick="deleteEmployee('<?= $rm['employeeId'] ?>')">
+                  <i class="fa fa-trash"></i> <strong>DELETE</strong>
+                </button>
+              </div>
+            </td>
+            <td><?= $rm['name'] ?></td>
+            <td><?= $rm['roleName'] ?></td>
+            <td><?= $rm['phoneNumber'] ?></td>
+            <td><?= $rm['email'] ?></td>
+            <td><?= $rm['address'] ?></td>
+          </tr>
+        <?php
+          $no++;
+        endforeach;
+      } else {
+        ?>
+
         <tr>
-          <td><?= $no ?></td>
-          <td>
-            <button type="button" id="dropdownMenuButton" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-cogs"></i>
-            </button>
-            <div class="dropdown-menu menu-aksi" aria-labelledby="dropdownMenuButton">
-              <button type="button" class="btn btn-warning btn-sm tombol-dropdown-last" data-toggle="modal" data-target="#employeeModal" onclick="editEmployeeModal(<?= htmlspecialchars(json_encode($rm)) ?>)">
-                <i class="fa fa-edit"></i> <strong>EDIT</strong>
-              </button>
-              <button type="button" class="btn btn-danger btn-sm tombol-dropdown-last" onclick="deleteEmployee('<?= $rm['employeeId'] ?>')">
-                <i class="fa fa-trash"></i> <strong>DELETE</strong>
-              </button>
-            </div>
+          <td colspan="10">
+            <p class="text-center font-weight-bold">No Result!</p>
           </td>
-          <td><?= $rm['name'] ?></td>
-          <td><?= $rm['roleName'] ?></td>
-          <td><?= $rm['phoneNumber'] ?></td>
-          <td><?= $rm['email'] ?></td>
-          <td><?= $rm['address'] ?></td>
+
         </tr>
-      <?php
-        $no++;
-      endforeach;
-    } else{
-      ?>
-     
-     <tr>
-      <td colspan="10"> <p class="text-center font-weight-bold">No Result!</p></td>
-      
-     </tr>
-     
+
       <?php } ?>
     </tbody>
   </table>
@@ -136,7 +138,7 @@ $role = query("SELECT * FROM employeeroles");
       <div class="modal-body">
         <form id="formEmployee" method="post">
           <input autocomplete="off" type="hidden" id="employeeId" name="employeeId">
-          <input autocomplete="off" type="hidden" id="flag" name="flag" value="update">
+          <input autocomplete="off" type="text" id="flagEmployee" name="flagEmployee">
           <div class="form-group">
             <label for="extraNumber">Name</label>
             <input autocomplete="off" type="text" name="name" id="name" class="form-control" placeholder="Add Employee Name" autocomplete="off">
@@ -178,11 +180,9 @@ $role = query("SELECT * FROM employeeroles");
 
 
 <script>
-
-
-  document.getElementById('flag').value = 'add';
+  document.getElementById('flagEmployee').value = 'add';
   $('#employeeModal').on('hidden.bs.modal', function() {
     $('#formEmployee')[0].reset();
-    document.getElementById('flag').value = 'add';
+    document.getElementById('flagEmployee').value = 'add';
   });
 </script>

@@ -6,7 +6,9 @@ if ($_SERVER['HTTP_HOST'] === 'localhost'){
     $db = mysqli_connect("localhost","u686303384_thehotel","#Thehotel12","u686303384_thehoteldb");
 
 }
+date_default_timezone_set("Asia/Jakarta");
 
+setlocale(LC_TIME, 'id_ID.UTF-8');
 // LAMBDA FUNCTION FOR CONCATING CONSTANT
 $constant = function (string $name) {
     return constant($name) ?? '';
@@ -89,3 +91,10 @@ function decryptUrl($encryptedUrl) {
 }
 
 
+
+function getCurrentDirectory()
+{
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+    $pathInfo = pathinfo($scriptName);
+    return $pathInfo['dirname'];
+}

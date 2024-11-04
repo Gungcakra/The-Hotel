@@ -1,7 +1,15 @@
 <?php
 
 $userId = $_SESSION['userId'];
-$userData = query("SELECT * FROM user WHERE userId = ?",[$userId])[0];
+$userData = query("SELECT user.*,
+                                 employeeroles.roleName
+                          FROM user 
+                          INNER JOIN employees
+                          ON user.employeeId 
+                          INNER JOIN employeeroles 
+                          ON employees.roleId = employeeroles.roleId
+                           WHERE userId = ?",[$userId])[0];
+
 ?>
 
 
@@ -28,18 +36,18 @@ $userData = query("SELECT * FROM user WHERE userId = ?",[$userId])[0];
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/#">
+                <a class="dropdown-item" data-toggle="modal" data-target="#userProfileModal">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
-                <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/#">
+                <!-- <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Settings
                 </a>
                 <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/#">
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Activity Log
-                </a>
+                </a> -->
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/system/logout.php?token=<?= $_SESSION['csrf_token'] ?>">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -51,3 +59,36 @@ $userData = query("SELECT * FROM user WHERE userId = ?",[$userId])[0];
     </ul>
 
 </nav>
+
+<div class="modal fade" id="userProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">PROFILE INFO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formExtra" method="post">
+          <input type="hidden" id="extraId" name="extraId">
+          <input type="hidden" id="flag" name="flag" value="update">
+          <div class="form-group">
+            <label for="extraNumber">Username</label>
+            <input type="text" name="username" id="usernames" class="form-control" placeholder="Add Username" autocomplete="off" value="<?= $userData['username'] ?>" readonly>
+          </div>
+          <div class="form-group">
+            <label for="extraNumber">Role</label>
+            <input type="text" name="role" id="roles" class="form-control" placeholder="Add Username" autocomplete="off" value="<?= $userData['roleName'] ?>" readonly>
+          </div>
+         
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary" onclick="prosesExtra()">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>

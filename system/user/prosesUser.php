@@ -6,8 +6,8 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-// Check if the flag is set
-if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
+// Check if the flagUser is set
+if (isset($_POST['flagUser']) && $_POST['flagUser'] === 'add') {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $employeeId = $_POST['employeeId'];
@@ -28,7 +28,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to add User."
         ]);
     }
-} else if (isset($_POST['flag']) && $_POST['flag'] === 'delete') {
+} else if (isset($_POST['flagUser']) && $_POST['flagUser'] === 'delete') {
     $userId = $_POST['userId'];
 
     $query = "DELETE FROM user WHERE userId = ?";
@@ -45,7 +45,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to delete User: " . mysqli_error($db)
         ]);
     }
-} else if ($_POST['flag'] && $_POST['flag'] === 'update') {
+} else if ($_POST['flagUser'] && $_POST['flagUser'] === 'update') {
     $userId = $_POST['userId'];
     $username = $_POST['username'];
     $password = $_POST['password'];

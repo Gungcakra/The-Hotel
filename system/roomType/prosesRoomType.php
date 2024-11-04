@@ -6,8 +6,8 @@ require_once "../../library/konfigurasi.php";
 //CEK USER
 checkUserSession($db);
 
-// Check if the flag is set
-if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
+// Check if the flagRoomType is set
+if (isset($_POST['flagRoomType']) && $_POST['flagRoomType'] === 'add') {
     $roomTypeId = $_POST['roomTypeId'];
     $typeName = $_POST['typeName'];
     $price = $_POST['price'];
@@ -27,7 +27,7 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to add Room Type."
         ]);
     }
-} else if (isset($_POST['flag']) && $_POST['flag'] === 'delete') {
+} else if (isset($_POST['flagRoomType']) && $_POST['flagRoomType'] === 'delete') {
     $roomTypeId = $_POST['roomTypeId'];
 
     $query = "DELETE FROM roomtypes WHERE roomTypeId = ?";
@@ -44,12 +44,12 @@ if (isset($_POST['flag']) && $_POST['flag'] === 'add') {
             "pesan" => "Failed to delete Room Type: "
         ]);
     }
-} else if ($_POST['flag'] && $_POST['flag'] === 'update') {
+} else if ($_POST['flagRoomType'] && $_POST['flagRoomType'] === 'update') {
         $roomTypeId = $_POST['roomTypeId'];
         $typeName = $_POST['typeName'];
         $price = $_POST['price'];
 
-        $query = "UPDATE rooms 
+        $query = "UPDATE roomtypes 
                 SET typeName = ?, 
                     price = ?
                 WHERE roomTypeId = ? ";
