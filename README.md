@@ -10,18 +10,14 @@ The Hotel adalah sistem manajemen hotel yang dibangun menggunakan PHP untuk memp
 
 2. **Manajemen Tamu (Guests)**
    - Tambah, edit, dan hapus data tamu.
-   - Lihat riwayat kunjungan dan profil tamu.
 
 3. **Manajemen Karyawan (Employees)**
    - Tambah, edit, dan hapus data karyawan.
-   - Kelola profil karyawan dan jadwal kerja.
 
 4. **Manajemen Reservasi (Reservations)**
    - Buat reservasi, kelola check-in dan check-out.
-   - Lihat status reservasi (aktif, selesai, atau dibatalkan).
 
 5. **Laporan Pendapatan Hotel**
-   - Susun laporan pemasukan dan pengeluaran berdasarkan data reservasi.
    - Lihat laporan harian, bulanan, dan tahunan.
 
 ## TechStack
