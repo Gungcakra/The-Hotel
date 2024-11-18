@@ -49,7 +49,7 @@ $userData = query("SELECT user.*,
                     Activity Log
                 </a> -->
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/system/logout.php?token=<?= $_SESSION['csrf_token'] ?>">
+                <a class="dropdown-item" href="<?= BASE_URL_HTML ?>/system/logout.php">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>
