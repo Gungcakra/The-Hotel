@@ -1,32 +1,41 @@
 <?php
+
 require_once "./library/konfigurasi.php";
 session_start();
 
-// Cek apakah pengguna sudah login
-if (isset($_SESSION['idUser'])) {
-    header('Location: '. BASE_URL_HTML .'/system/');
-    exit();
+// Batasi percobaan login
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+}
+
+if ($_SESSION['login_attempts'] >= 3) {
+    die("Try Again Later.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil username dan password dari form
-    $username = $_POST['username'];
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
 
-    // Query untuk mendapatkan data user berdasarkan username
-    $user = query("SELECT * FROM user WHERE username = ?", [$username]);
-
-    // Jika user ditemukan, verifikasi password
-    if ($user && password_verify($password, $user[0]['password'])) {
-        $_SESSION['userId'] = $user[0]['userId'];
-        // Generate Token CSRF
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); 
-        header('Location: '. BASE_URL_HTML .'/system/');
-        exit();
+    // Validasi input
+    if (empty($username) || empty($password)) {
+        $error = "Username dan password tidak boleh kosong.";
     } else {
-        $error = "Username atau password salah.";
+        // Query untuk mendapatkan data user berdasarkan username
+        $user = query("SELECT * FROM user WHERE username = ?", [$username]);
+
+        if ($user && password_verify($password, $user[0]['password'])) {
+            $_SESSION['userId'] = $user[0]['userId'];
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            $_SESSION['login_attempts'] = 0; // Reset percobaan login
+            header('Location: '. BASE_URL_HTML .'/system/');
+            exit();
+        } else {
+            $_SESSION['login_attempts']++;
+            $error = "Username atau password salah.";
+        }
     }
 }
+
 
 
 ?>
