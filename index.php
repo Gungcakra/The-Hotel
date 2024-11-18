@@ -50,9 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="description" content="">
     <meta name="author" content="">
     <title>SB Admin 2 - Login</title>
-    <link href="<?= BASE_URL_HTML ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<?= BASE_URL_HTML ?>/thehotel/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="<?= BASE_URL_HTML ?>/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?= BASE_URL_HTML ?>/thehotel/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gradient-primary">
@@ -91,10 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script src="<?= BASE_URL_HTML ?>/vendor/jquery/jquery.min.js"></script>
-    <script src="<?= BASE_URL_HTML ?>/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="<?= BASE_URL_HTML ?>/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="<?= BASE_URL_HTML ?>/js/sb-admin-2.min.js"></script>
+    <script src="<?= BASE_URL_HTML ?>/thehotel/vendor/jquery/jquery.min.js"></script>
+    <script src="<?= BASE_URL_HTML ?>/thehotel/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= BASE_URL_HTML ?>/thehotel/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="<?= BASE_URL_HTML ?>/thehotel/js/sb-admin-2.min.js"></script>
 
 </body>
 
