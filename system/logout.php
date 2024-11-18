@@ -1,4 +1,6 @@
 <?php
-include_once ".././library/fungsiLog.php";
+include_once ".././library/konfigurasi.php";
 
-logOut();
+session_destroy();
+
+echo '<script>window.location.href = "'.BASE_URL_HTML.'";</script>';
