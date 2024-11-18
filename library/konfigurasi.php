@@ -47,7 +47,7 @@ if ($_SERVER['HTTP_HOST'] === 'localhost') {
     define('BASE_URL_HTML', '/thehotel');
     define('BASE_URL_PHP', dirname(__DIR__)); 
 } else {
-    define('BASE_URL_HTML', '/thehotel'); 
+    define('BASE_URL_HTML', ''); 
     define('BASE_URL_PHP', dirname(__DIR__)); 
 }
 
