@@ -42,7 +42,7 @@ function query($query, $params = []) {
 }
 
 
-define('BASE_URL_HTML', '/thehotel');
+define('BASE_URL_HTML', '');
 define('BASE_URL_PHP', $_SERVER['DOCUMENT_ROOT'] . '/thehotel');
 
 
