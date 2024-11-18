@@ -10,3 +10,4 @@ checkUserSession($db);
 session_destroy();
 
 header('location: ' . BASE_URL_HTML);
+exit;
