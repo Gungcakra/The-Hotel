@@ -62,7 +62,7 @@ $employee = query("SELECT * FROM employees");
         <th scope="col">#</th>
         <th scope="col">Action</th>
         <th scope="col">UserName</th>
-        <th scope="col">User Name</th>
+        <th scope="col">Employee Name</th>
         <th scope="col">Role</th>
       </tr>
     </thead>
