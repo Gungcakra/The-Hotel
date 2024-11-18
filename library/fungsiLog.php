@@ -4,5 +4,6 @@ function logOut(){
 
 session_destroy();
 
-header('location: ' . BASE_URL_HTML);
+echo '<script>window.location.href = "'.BASE_URL_HTML.'";</script>';
+
 }
